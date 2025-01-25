@@ -3,10 +3,9 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web.Services.Description;
-using System.Web.UI;
 using System.Web;
-using System.Net.NetworkInformation;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace WebApplication1
 {
@@ -922,13 +921,12 @@ namespace WebApplication1
         }
 
 
-        /*
-Uncomment once this section is bulit out        
-        public void LoadPatientInfo(string patientID, DataGridView dataGridViewPrescriptions, Label lblPatientName, Label lblDOB, Label lblAddress, Label lblPhone)
+
+        public void LoadPatientInfo(string patientID, GridView gridViewPrescriptions, Label lblPatientName, Label lblDOB, Label lblAddress, Label lblPhone)
         {
             // Clear UI elements
-            dataGridViewPrescriptions.DataSource = null;
-            dataGridViewPrescriptions.Rows.Clear();
+            gridViewPrescriptions.DataSource = null;
+            gridViewPrescriptions.DataBind(); // Clear any existing data
             lblPatientName.Text = string.Empty;
             lblDOB.Text = string.Empty;
             lblAddress.Text = string.Empty;
@@ -936,63 +934,66 @@ Uncomment once this section is bulit out
 
             try
             {
-                // Open the connection
-                myConn.Open();
-
-                // Clear parameters and set up command for stored procedure
-                cmdString.Parameters.Clear();
-                cmdString.CommandType = CommandType.StoredProcedure;
-                cmdString.CommandText = "GetPatientInfoAndPrescriptions";
-                cmdString.Parameters.AddWithValue("@PatientID", patientID);
-
-                using (SqlDataReader reader = cmdString.ExecuteReader())
+                // Open the connection inside a using statement to ensure proper disposal
+                using (SqlConnection myConn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnString"].ConnectionString))
                 {
-                    // Retrieve patient info
-                    if (reader.Read())
-                    {
-                        lblPatientName.Text = $"{reader["FirstName"]} {reader["MiddleInitial"]} {reader["LastName"]}";
-                        lblDOB.Text = reader["DOB"].ToString();
-                        lblPhone.Text = reader["Phone"].ToString();
-                        lblAddress.Text = $"{reader["Street"]}, {reader["City"]}, {reader["State"]} {reader["Zip"]}, {reader["Country"]}";
-                    }
-                    else
-                    {
-                        string message = "Patient not found.";
+                    myConn.Open(); // Ensure the connection is open
 
-                        // Register a JavaScript alert to show the message in the browser
-                        if (HttpContext.Current.Handler is Page page)
+                    // Create a new command and associate it with the connection
+                    using (SqlCommand cmdString = new SqlCommand("GetPatientInfoAndPrescriptions", myConn))
+                    {
+                        cmdString.CommandType = CommandType.StoredProcedure;
+                        cmdString.Parameters.AddWithValue("@PatientID", patientID);
+
+                        using (SqlDataReader reader = cmdString.ExecuteReader())
                         {
-                            page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + message + "');", true);
-                        }
-                        return;
-                    }
+                            // Retrieve patient info
+                            if (reader.Read())
+                            {
+                                lblPatientName.Text = $"{reader["FirstName"]} {reader["MiddleInitial"]} {reader["LastName"]}";
+                                lblDOB.Text = reader["DOB"].ToString();
+                                lblPhone.Text = reader["Phone"].ToString();
+                                lblAddress.Text = $"{reader["Street"]}, {reader["City"]}, {reader["State"]} {reader["Zip"]}, {reader["Country"]}";
+                            }
+                            else
+                            {
+                                // If patient not found
+                                string message = "Patient not found.";
 
-                    // Load prescriptions into DataGridView
-                    if (reader.NextResult())
-                    {
-                        DataTable prescriptionsTable = new DataTable();
-                        prescriptionsTable.Load(reader);
-                        dataGridViewPrescriptions.DataSource = prescriptionsTable;
+                                // Register a JavaScript alert to show the message in the browser
+                                if (HttpContext.Current.Handler is Page page)
+                                {
+                                    page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + message + "');", true);
+                                }
+                                return;
+                            }
+
+                            // Load prescriptions into GridView
+                            if (reader.NextResult()) // Move to the prescriptions result set
+                            {
+                                DataTable prescriptionsTable = new DataTable();
+                                prescriptionsTable.Load(reader);
+                                gridViewPrescriptions.DataSource = prescriptionsTable;
+                                gridViewPrescriptions.DataBind(); // Bind the data to the GridView
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
+                // Handle any errors that may occur during the operation
                 string errorMessage = "An error occurred: " + ex.Message;
 
+                // Display the error message using JavaScript alert
                 if (HttpContext.Current.Handler is Page page)
                 {
                     page.ClientScript.RegisterStartupScript(this.GetType(), "errorAlert", "alert('" + errorMessage + "');", true);
                 }
             }
-            finally
-            {
-                // Close the connection
-
-                myConn.Close();
-            }
         }
-        */
+        
+
 
         public void DeletePatient(string PatID)
         {
