@@ -4,7 +4,7 @@ using System.Web.UI.WebControls;
 
 namespace WebApplication1
 {
-    public partial class Veiw_Pat : System.Web.UI.Page
+    public partial class View_Pat : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
