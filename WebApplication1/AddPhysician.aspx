@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add_Pat.aspx.cs" Inherits="WebApplication1.Add_Pat" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AddPhysician.aspx.cs" Inherits="WebApplication1.AddPhysician" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Add Patient</title>
+       <title>Add Physician</title>
 </head>
 <body>
     <form id="form1" runat="server" onreset="return confirm('Do you really want to clear this form?');">
@@ -21,7 +21,7 @@
             <p>City:</p><asp:TextBox ID="txtCity" runat="server"> </asp:TextBox> <br />
             <p>Zip:</p><asp:TextBox ID="txtZip" runat="server"> </asp:TextBox> <br />
             <p>County:</p><asp:TextBox ID="txtCounty" runat="server"> </asp:TextBox> <br />
-            <p>Insurance:</p><asp:TextBox ID="txtInsurance" runat="server"> </asp:TextBox> <br />
+            <br />
             <br />
             <asp:Button ID="btnSubmit" runat="server" Text="Submit"/>
             <input type="reset" />

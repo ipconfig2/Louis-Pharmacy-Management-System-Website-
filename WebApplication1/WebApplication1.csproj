@@ -64,6 +64,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AddPhysician.aspx" />
     <Content Include="Add_Pat.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -90,16 +91,11 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="View_Pat.aspx" />
-
-
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="frmLandingpage.aspx" />
-
-
     <Content Include="Veiw_Pat.aspx" />
     <Content Include="ViewRefill.aspx" />
     <Content Include="View_Patients_Perscriptions.aspx" />
@@ -107,6 +103,13 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddPhysician.aspx.cs">
+      <DependentUpon>AddPhysician.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AddPhysician.aspx.designer.cs">
+      <DependentUpon>AddPhysician.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Add_Pat.aspx.cs">
       <DependentUpon>Add_Pat.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -128,13 +131,6 @@
     </Compile>
     <Compile Include="landingpage.aspx.designer.cs">
       <DependentUpon>landingpage.aspx</DependentUpon>
-</Compile>
-    <Compile Include="frmLandingpage.aspx.cs">
-      <DependentUpon>frmLandingpage.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="frmLandingpage.aspx.designer.cs">
-      <DependentUpon>frmLandingpage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View_Pat.aspx.cs">
