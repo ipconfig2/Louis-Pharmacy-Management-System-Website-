@@ -11,7 +11,7 @@ namespace WebApplication1
 {
 
 
-    public partial class Veiw_Pat
+    public partial class View_Pat
     {
 
         /// <summary>

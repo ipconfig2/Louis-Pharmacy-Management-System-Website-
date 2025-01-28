@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Veiw_Pat.aspx.cs" Inherits="WebApplication1.Veiw_Pat" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="View_Pat.aspx.cs" Inherits="WebApplication1.Veiw_Pat" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">

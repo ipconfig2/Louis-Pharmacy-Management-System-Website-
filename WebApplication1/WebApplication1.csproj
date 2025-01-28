@@ -64,12 +64,15 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<<<< Temporary merge branch 1
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="frmLandingpage.aspx" />
+=========
+>>>>>>>>> Temporary merge branch 2
     <Content Include="Veiw_Pat.aspx" />
     <Content Include="ViewRefill.aspx" />
     <Content Include="View_Patients_Perscriptions.aspx" />
@@ -77,21 +80,35 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class.cs" />
-    <Compile Include="frmLandingpage.aspx.cs">
-      <DependentUpon>frmLandingpage.aspx</DependentUpon>
+    <Compile Include="Add_Pat.aspx.cs">
+      <DependentUpon>Add_Pat.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="frmLandingpage.aspx.designer.cs">
-      <DependentUpon>frmLandingpage.aspx</DependentUpon>
+    <Compile Include="Add_Pat.aspx.designer.cs">
+      <DependentUpon>Add_Pat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Class.cs" />
+    <Compile Include="error.aspx.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="error.aspx.designer.cs">
+      <DependentUpon>error.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="landingpage.aspx.cs">
+      <DependentUpon>landingpage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="landingpage.aspx.designer.cs">
+      <DependentUpon>landingpage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Veiw_Pat.aspx.cs">
-      <DependentUpon>Veiw_Pat.aspx</DependentUpon>
+    <Compile Include="View_Pat.aspx.cs">
+      <DependentUpon>View_Pat.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Veiw_Pat.aspx.designer.cs">
-      <DependentUpon>Veiw_Pat.aspx</DependentUpon>
+    <Compile Include="View_Pat.aspx.designer.cs">
+      <DependentUpon>View_Pat.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewRefill.aspx.cs">
       <DependentUpon>ViewRefill.aspx</DependentUpon>
@@ -117,7 +134,126 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="libman.json" />
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap\_variables.scss" />
+    <Content Include="Content\bootstrap\_variables-dark.scss" />
+    <Content Include="Content\bootstrap\_utilities.scss" />
+    <Content Include="Content\bootstrap\_type.scss" />
+    <Content Include="Content\bootstrap\_transitions.scss" />
+    <Content Include="Content\bootstrap\_tooltip.scss" />
+    <Content Include="Content\bootstrap\_toasts.scss" />
+    <Content Include="Content\bootstrap\_tables.scss" />
+    <Content Include="Content\bootstrap\_spinners.scss" />
+    <Content Include="Content\bootstrap\_root.scss" />
+    <Content Include="Content\bootstrap\_reboot.scss" />
+    <Content Include="Content\bootstrap\_progress.scss" />
+    <Content Include="Content\bootstrap\_popover.scss" />
+    <Content Include="Content\bootstrap\_placeholders.scss" />
+    <Content Include="Content\bootstrap\_pagination.scss" />
+    <Content Include="Content\bootstrap\_offcanvas.scss" />
+    <Content Include="Content\bootstrap\_navbar.scss" />
+    <Content Include="Content\bootstrap\_nav.scss" />
+    <Content Include="Content\bootstrap\_modal.scss" />
+    <Content Include="Content\bootstrap\_mixins.scss" />
+    <Content Include="Content\bootstrap\_maps.scss" />
+    <Content Include="Content\bootstrap\_list-group.scss" />
+    <Content Include="Content\bootstrap\_images.scss" />
+    <Content Include="Content\bootstrap\_helpers.scss" />
+    <Content Include="Content\bootstrap\_grid.scss" />
+    <Content Include="Content\bootstrap\_functions.scss" />
+    <Content Include="Content\bootstrap\_forms.scss" />
+    <Content Include="Content\bootstrap\_dropdown.scss" />
+    <Content Include="Content\bootstrap\_containers.scss" />
+    <Content Include="Content\bootstrap\_close.scss" />
+    <Content Include="Content\bootstrap\_carousel.scss" />
+    <Content Include="Content\bootstrap\_card.scss" />
+    <Content Include="Content\bootstrap\_buttons.scss" />
+    <Content Include="Content\bootstrap\_button-group.scss" />
+    <Content Include="Content\bootstrap\_breadcrumb.scss" />
+    <Content Include="Content\bootstrap\_badge.scss" />
+    <Content Include="Content\bootstrap\_alert.scss" />
+    <Content Include="Content\bootstrap\_accordion.scss" />
+    <Content Include="Content\bootstrap\vendor\_rfs.scss" />
+    <Content Include="Content\bootstrap\utilities\_api.scss" />
+    <Content Include="Content\bootstrap\tests\utilities\_api.test.scss" />
+    <Content Include="Content\bootstrap\tests\mixins\_utilities.test.scss" />
+    <Content Include="Content\bootstrap\tests\mixins\_media-query-color-mode-full.test.scss" />
+    <Content Include="Content\bootstrap\tests\mixins\_color-modes.test.scss" />
+    <Content Include="Content\bootstrap\tests\mixins\_auto-import-of-variables-dark.test.scss" />
+    <Content Include="Content\bootstrap\mixins\_visually-hidden.scss" />
+    <Content Include="Content\bootstrap\mixins\_utilities.scss" />
+    <Content Include="Content\bootstrap\mixins\_transition.scss" />
+    <Content Include="Content\bootstrap\mixins\_text-truncate.scss" />
+    <Content Include="Content\bootstrap\mixins\_table-variants.scss" />
+    <Content Include="Content\bootstrap\mixins\_resize.scss" />
+    <Content Include="Content\bootstrap\mixins\_reset-text.scss" />
+    <Content Include="Content\bootstrap\mixins\_pagination.scss" />
+    <Content Include="Content\bootstrap\mixins\_lists.scss" />
+    <Content Include="Content\bootstrap\mixins\_list-group.scss" />
+    <Content Include="Content\bootstrap\mixins\_image.scss" />
+    <Content Include="Content\bootstrap\mixins\_grid.scss" />
+    <Content Include="Content\bootstrap\mixins\_gradients.scss" />
+    <Content Include="Content\bootstrap\mixins\_forms.scss" />
+    <Content Include="Content\bootstrap\mixins\_deprecate.scss" />
+    <Content Include="Content\bootstrap\mixins\_container.scss" />
+    <Content Include="Content\bootstrap\mixins\_color-scheme.scss" />
+    <Content Include="Content\bootstrap\mixins\_color-mode.scss" />
+    <Content Include="Content\bootstrap\mixins\_clearfix.scss" />
+    <Content Include="Content\bootstrap\mixins\_caret.scss" />
+    <Content Include="Content\bootstrap\mixins\_buttons.scss" />
+    <Content Include="Content\bootstrap\mixins\_breakpoints.scss" />
+    <Content Include="Content\bootstrap\mixins\_box-shadow.scss" />
+    <Content Include="Content\bootstrap\mixins\_border-radius.scss" />
+    <Content Include="Content\bootstrap\mixins\_banner.scss" />
+    <Content Include="Content\bootstrap\mixins\_backdrop.scss" />
+    <Content Include="Content\bootstrap\mixins\_alert.scss" />
+    <Content Include="Content\bootstrap\helpers\_vr.scss" />
+    <Content Include="Content\bootstrap\helpers\_visually-hidden.scss" />
+    <Content Include="Content\bootstrap\helpers\_text-truncation.scss" />
+    <Content Include="Content\bootstrap\helpers\_stretched-link.scss" />
+    <Content Include="Content\bootstrap\helpers\_stacks.scss" />
+    <Content Include="Content\bootstrap\helpers\_ratio.scss" />
+    <Content Include="Content\bootstrap\helpers\_position.scss" />
+    <Content Include="Content\bootstrap\helpers\_icon-link.scss" />
+    <Content Include="Content\bootstrap\helpers\_focus-ring.scss" />
+    <Content Include="Content\bootstrap\helpers\_colored-links.scss" />
+    <Content Include="Content\bootstrap\helpers\_color-bg.scss" />
+    <Content Include="Content\bootstrap\helpers\_clearfix.scss" />
+    <Content Include="Content\bootstrap\forms\_validation.scss" />
+    <Content Include="Content\bootstrap\forms\_labels.scss" />
+    <Content Include="Content\bootstrap\forms\_input-group.scss" />
+    <Content Include="Content\bootstrap\forms\_form-text.scss" />
+    <Content Include="Content\bootstrap\forms\_form-select.scss" />
+    <Content Include="Content\bootstrap\forms\_form-range.scss" />
+    <Content Include="Content\bootstrap\forms\_form-control.scss" />
+    <Content Include="Content\bootstrap\forms\_form-check.scss" />
+    <Content Include="Content\bootstrap\forms\_floating-labels.scss" />
+    <Content Include="Content\bootstrap\bootstrap.scss" />
+    <Content Include="Content\bootstrap\bootstrap-utilities.scss" />
+    <Content Include="Content\bootstrap\bootstrap-reboot.scss" />
+    <Content Include="Content\bootstrap\bootstrap-grid.scss" />
     <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
