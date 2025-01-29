@@ -27,7 +27,7 @@ namespace WebApplication1
         protected void btnClose_Click(object sender, EventArgs e)
         {
             // Redirect to homepage (Kevin)
-            Response.Redirect("HomePage.aspx");
+            Response.Redirect("landingpage.aspx");
         }
     }
 }
