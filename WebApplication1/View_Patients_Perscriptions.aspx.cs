@@ -40,7 +40,6 @@ namespace WebApplication1
 
         protected void gvPrescriptions_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Enable delete and update buttons when a row is selected
             btnDelete.Enabled = true;
             btnUpdate.Enabled = true;
         }
@@ -49,17 +48,14 @@ namespace WebApplication1
         {
             if (gvPrescriptions.SelectedRow != null)
             {
-                // Get the Prescription ID from the selected row
                 string prescriptionID = gvPrescriptions.SelectedRow.Cells[0].Text;
 
-                // Ask for confirmation before deleting
                 string confirmMessage = "Are you sure you want to delete this prescription?";
                 string script = $"if (confirm('{confirmMessage}')) {{ __doPostBack('{btnDelete.ClientID}', ''); }}";
                 ClientScript.RegisterStartupScript(this.GetType(), "confirmDelete", script, true);
             }
             else
             {
-                // No row selected, show alert
                 string message = "Please select a prescription to delete.";
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", $"alert('{message}');", true);
             }
@@ -70,7 +66,6 @@ namespace WebApplication1
           {
               if (gvPrescriptions.SelectedRow != null)
               {
-                  // Redirect to the update prescription form with the selected prescription ID
                   string prescID = gvPrescriptions.SelectedRow.Cells[0].Text;
                   Response.Redirect($"UpdatePrescription.aspx?prescID={prescID}");
               }
@@ -83,7 +78,7 @@ namespace WebApplication1
         protected void btnClose_Click(object sender, EventArgs e)
         {
             // Redirect to a home page or close the current page
-            Response.Redirect("HomePage.aspx");
+            Response.Redirect("landingpage.aspx");
         }
     }
 }
