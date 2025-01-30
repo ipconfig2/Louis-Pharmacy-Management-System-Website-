@@ -11,11 +11,9 @@
         <div>
             <p>Place Holder Nav Bar</p>
            
-            
-
              <a href="landingpage.aspx">Home</a> <br/>
-             <a href="error.aspx">Add Patient</a> <br/>
-             <a href="error.aspx">Add Physician</a> <br/>
+             <a href="Add_Pat.aspx">Add Patient</a> <br/>
+             <a href="AddPhysician.aspx">Add Physician</a> <br/>
              <a href="error.aspx">Add Prescription</a> <br/>
              <a href="error.aspx">Update Patient</a> <br/>
              <a href="error.aspx">Update Prescription</a> <br/>
