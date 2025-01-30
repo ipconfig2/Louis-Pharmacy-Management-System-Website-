@@ -100,7 +100,6 @@
   <ItemGroup>
     <Content Include="Veiw_Pat.aspx" />
     <Content Include="ViewRefill.aspx" />
-    <Content Include="View_Patients_Perscriptions.aspx" />
     <Content Include="View_Phy.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -162,13 +161,6 @@
     </Compile>
     <Compile Include="ViewRefill.aspx.designer.cs">
       <DependentUpon>ViewRefill.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="View_Patients_Perscriptions.aspx.cs">
-      <DependentUpon>View_Patients_Perscriptions.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="View_Patients_Perscriptions.aspx.designer.cs">
-      <DependentUpon>View_Patients_Perscriptions.aspx</DependentUpon>
     </Compile>
     <Compile Include="View_Phy.aspx.cs">
       <DependentUpon>View_Phy.aspx</DependentUpon>
