@@ -61,8 +61,6 @@
             <asp:Button ID="btnClose" runat="server" Text="Close" OnClick="btnClose_Click" />
 
 
-
-
             <br /><br />
             <br /><br />
 
