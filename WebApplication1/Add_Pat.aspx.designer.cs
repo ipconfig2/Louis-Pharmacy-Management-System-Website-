@@ -51,13 +51,13 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox txtLname;
 
         /// <summary>
-        /// data control.
+        /// ddob control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox data;
+        protected global::System.Web.UI.WebControls.TextBox ddob;
 
         /// <summary>
         /// txtGender control.
@@ -78,15 +78,6 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox txtPhone;
 
         /// <summary>
-        /// txtEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
-
-        /// <summary>
         /// txtAddress control.
         /// </summary>
         /// <remarks>
@@ -94,15 +85,6 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtAddress;
-
-        /// <summary>
-        /// txtStreet control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStreet;
 
         /// <summary>
         /// txtCity control.
@@ -123,13 +105,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox txtZip;
 
         /// <summary>
-        /// txtCounty control.
+        /// txtCountry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCounty;
+        protected global::System.Web.UI.WebControls.TextBox txtCountry;
+
+        /// <summary>
+        /// txtState control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtState;
 
         /// <summary>
         /// txtInsurance control.
