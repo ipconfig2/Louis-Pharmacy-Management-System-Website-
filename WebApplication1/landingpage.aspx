@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="landingpage.aspx.cs" Inherits="WebApplication1.landingpage" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="landingpage.aspx.cs" Inherits="WebApplication1.landingpage" %>
 
 <!DOCTYPE html>
 
