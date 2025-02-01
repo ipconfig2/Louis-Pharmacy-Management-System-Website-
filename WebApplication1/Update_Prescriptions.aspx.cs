@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
-using System.Configuration;
-using System.Collections.Generic;
 
 namespace WebApplication1
 {
@@ -51,12 +51,12 @@ namespace WebApplication1
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                
+
                 string query = "UPDATE Prescriptions SET ";
                 List<string> updates = new List<string>();
                 SqlCommand cmd = new SqlCommand();
 
-               
+
                 if (!string.IsNullOrWhiteSpace(txtMedicine.Text))
                 {
                     updates.Add("MedName = @MedName");
@@ -75,7 +75,7 @@ namespace WebApplication1
                     cmd.Parameters.AddWithValue("@IntMethod", txtIntMethod.Text);
                 }
 
-                
+
                 if (updates.Count > 0)
                 {
                     query += string.Join(", ", updates);
@@ -97,10 +97,10 @@ namespace WebApplication1
                 }
             }
 
-            
+
             LoadPrescriptions();
 
-            
+
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
         }
@@ -112,10 +112,10 @@ namespace WebApplication1
             {
                 lblMessage2.Text = "Error: No prescription selected!";
                 lblMessage2.ForeColor = System.Drawing.Color.Red;
-                return; 
+                return;
             }
 
-            
+
             if (string.IsNullOrWhiteSpace(txtRefillDate.Text))
             {
                 lblMessage2.Text = "Error: Please enter the refill date.";
@@ -140,7 +140,7 @@ namespace WebApplication1
                 cmd.Parameters.AddWithValue("@RefillDate", DateTime.Parse(txtRefillDate.Text));
                 cmd.Parameters.AddWithValue("@PrescriptionID", txtPrescriptionID.Text);
 
-                 
+
                 if (chkPending.Checked)
                 {
                     cmd.Parameters.AddWithValue("@Status", "Pending");
@@ -162,7 +162,7 @@ namespace WebApplication1
             lblMessage2.Text = "Refill updated successfully.";
             lblMessage2.ForeColor = System.Drawing.Color.Green;
 
-            
+
             LoadRefillInfo(txtPrescriptionID.Text);
         }
 
@@ -180,10 +180,10 @@ namespace WebApplication1
                 con.Close();
             }
 
-            
+
             LoadPrescriptions();
 
-            
+
             btnUpdate.Enabled = false;
             btnDelete.Enabled = false;
         }
@@ -205,7 +205,7 @@ namespace WebApplication1
                     gvPrescriptions.DataSource = dt;
                     gvPrescriptions.DataBind();
 
-                    
+
                     if (dt.Rows.Count == 1)
                     {
                         txtPrescriptionID.Text = dt.Rows[0]["PrescriptionID"].ToString();
@@ -276,11 +276,11 @@ namespace WebApplication1
                 da.Fill(dt);
                 lblMessage2.Text = string.Empty;
 
-                
+
                 gvRefillInfo.DataSource = dt;
                 gvRefillInfo.DataBind();
 
-               
+
                 if (dt.Rows.Count == 0)
                 {
                     lblMessage2.Text = "No Refill Info was found.";

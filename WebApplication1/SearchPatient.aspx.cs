@@ -18,7 +18,7 @@ namespace WebApplication1
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string searchKey = txtPatientSearch.Text.Trim();
-            Class dataService = new Class(); 
+            Class dataService = new Class();
             DataSet patientData = dataService.SearchPatient(searchKey);
 
             if (patientData.Tables[0].Rows.Count > 0)

@@ -17,10 +17,8 @@ namespace WebApplication1
 
         static System.Data.SqlClient.SqlCommand cmdString = new System.Data.SqlClient.SqlCommand();
 
-
         public void AddPatient(string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
         {
-
 
             try
 
@@ -29,7 +27,7 @@ namespace WebApplication1
 
                 myConn.Open();
 
-                //clear any parameters 
+                //clear any parameters
 
                 cmdString.Parameters.Clear();
 
@@ -43,7 +41,7 @@ namespace WebApplication1
 
                 cmdString.CommandText = "AddPatient";
 
-                //        Define input parameter 
+                // Define input parameter 
 
                 bool IsAllLetters(string input)
                 {
@@ -68,7 +66,6 @@ namespace WebApplication1
                     }
                     return true;
                 }
-
 
                 // Check and add parameters
                 if (IsAllLetters(Fname))
@@ -165,9 +162,7 @@ namespace WebApplication1
                     throw new ArgumentException("Invalid format for Insurance Yes, No, Y, N");
                 }
 
-
                 cmdString.ExecuteNonQuery();
-
             }
 
             catch (Exception ex)
@@ -180,11 +175,8 @@ namespace WebApplication1
             finally
 
             {
-
                 myConn.Close();
-
             }
-
         }
 
         public void AddPhysician(string Fname, string LName, string Email, string Phone)
@@ -202,6 +194,10 @@ namespace WebApplication1
                 return true;
             }
 
+            bool IsAllDigits(string input)
+            {
+                return input.All(char.IsDigit);
+            }
 
             bool IsValidEmailFormat(string input)
             {
@@ -230,7 +226,7 @@ namespace WebApplication1
                 cmdString.CommandText = "AddPhysician";
 
                 // Validate and add parameters
-                if (IsAllLetters(Fname))
+                if (Fname != null && IsAllLetters(Fname) && Fname != "")
                 {
                     cmdString.Parameters.Add("@Fname", SqlDbType.VarChar, 50).Value = Fname;
                 }
@@ -239,7 +235,7 @@ namespace WebApplication1
                     throw new ArgumentException("Invalid format for First Name (Use only Letters)");
                 }
 
-                if (IsAllLetters(LName))
+                if (LName != null && IsAllLetters(LName) && LName != "")
                 {
                     cmdString.Parameters.Add("@Lname", SqlDbType.VarChar, 50).Value = LName;
                 }
@@ -248,25 +244,25 @@ namespace WebApplication1
                     throw new ArgumentException("Invalid format for Last Name (Use only Letters)");
                 }
 
-                if (IsValidEmailFormat(Email))
+                if (IsValidEmailFormat(Email) && Email != "")
                 {
                     cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 50).Value = Email;
                 }
-                else if (!string.IsNullOrEmpty(Email))
+                else
                 {
                     throw new ArgumentException("Invalid format for Email (Use only Letters, Numbers, '@', '.', '-', and '_')");
                 }
+
+                if (IsAllDigits(Phone) && Phone != "")
+                {
+                    cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 50).Value = Phone;
+                }
                 else
                 {
-                    cmdString.Parameters.Add("@EMAIL", SqlDbType.VarChar, 100).Value = DBNull.Value;
+                    throw new ArgumentException("Invalid format for phone number (Use only Numbers)");
                 }
 
-                cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 50).Value = Phone;
-
-
                 cmdString.ExecuteNonQuery();
-
-
             }
             catch (Exception ex)
             {
@@ -427,6 +423,43 @@ namespace WebApplication1
             //{ 
             //    myConn.Close(); 
             //}
+        }
+
+        public bool CheckPhyID(string phyid)
+        {
+            try
+            {
+
+                // myConn.Open();
+
+                // Clear parameters and set up command
+                cmdString.Parameters.Clear();
+                cmdString.Connection = myConn;
+                cmdString.CommandType = CommandType.Text;
+
+                cmdString.CommandText = @"SELECT COUNT(1) FROM PHYSICIAN WHERE PHYSICIANID = @PHYSICIANId";
+                cmdString.Parameters.Add("@PHYSICIAN", SqlDbType.VarChar, 25).Value = phyid;
+
+                int exists = (int)cmdString.ExecuteScalar();
+                if (exists > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = "An error occurred. Make sure you enter a valid patient ID. Dev notes: " + ex.Message;
+
+                if (HttpContext.Current.Handler is Page page)
+                {
+                    page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + message + "');", true);
+                }
+                return false;
+            }
         }
 
 
@@ -606,6 +639,68 @@ namespace WebApplication1
                 myConn.Close();
             }
         }
+
+        public void UpdatePhysician(string physicianId, string Fname, string LName, string Email, string Phone)
+        {
+            bool IsAllLetters(string input)
+            {
+                return input.All(char.IsLetter);
+            }
+
+            // Input validation
+            if (string.IsNullOrEmpty(physicianId) || !CheckPhyID(physicianId))
+            {
+                throw new ArgumentException("Invalid Physician ID.");
+            }
+
+            if (string.IsNullOrEmpty(Fname) || !IsAllLetters(Fname))
+            {
+                throw new ArgumentException("First name should contain only letters.");
+            }
+
+            if (string.IsNullOrEmpty(LName) || !IsAllLetters(LName))
+            {
+                throw new ArgumentException("Last name should contain only letters.");
+            }
+
+            if (string.IsNullOrEmpty(Email) || !Email.Contains("@"))
+            {
+                throw new ArgumentException("Invalid email format.");
+            }
+
+            if (string.IsNullOrEmpty(Phone) || !Phone.All(char.IsDigit))
+            {
+                throw new ArgumentException("Phone number should contain only digits.");
+            }
+
+            try
+            {
+                myConn.Open();
+                cmdString.Parameters.Clear();
+                cmdString.Connection = myConn;
+                cmdString.CommandType = CommandType.StoredProcedure;
+                cmdString.CommandTimeout = 1500;
+                cmdString.CommandText = "UpdatePhysician";
+
+                cmdString.Parameters.Add("@PhysicianId", SqlDbType.VarChar, 25).Value = physicianId;
+                cmdString.Parameters.Add("@FirstName", SqlDbType.VarChar, 50).Value = Fname;
+                cmdString.Parameters.Add("@LastName", SqlDbType.VarChar, 50).Value = LName;
+                cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = Email;
+                cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
+
+                cmdString.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException("Database operation failed.", ex);
+            }
+            finally
+            {
+                if (myConn.State == ConnectionState.Open)
+                    myConn.Close();
+            }
+        }
+
 
         public void UpdatePrescription(string prescriptionID, string patientID, string physicianID, string medName, string dosage, string intMethod, int refillsLeft)
         {
@@ -992,7 +1087,7 @@ namespace WebApplication1
                 }
             }
         }
-        
+
 
 
         public void DeletePatient(string PatID)

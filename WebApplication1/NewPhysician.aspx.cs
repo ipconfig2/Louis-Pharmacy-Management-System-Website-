@@ -1,13 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Net;
-using System.Security.Policy;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Xml.Linq;
 
 namespace WebApplication1
 {
@@ -25,7 +16,7 @@ namespace WebApplication1
             Phone = txtPhone.Text.Trim();
             Email = txtEmail.Text.Trim();
 
-            
+
 
             Class dataService = new Class();
             dataService.AddPhysician(Fname, LName, Email, Phone);

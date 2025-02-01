@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
-using System.Web.UI.WebControls;
-using System.Collections.Generic;
 
 namespace WebApplication1
 {
@@ -39,11 +38,11 @@ namespace WebApplication1
 
                 if (dt.Rows.Count > 0)
                 {
- 
+
                     gvPatients.DataSource = dt;
                     gvPatients.DataBind();
 
-                    
+
                     string gender = dt.Rows[0]["Gender"].ToString();
                     if (gender == "Male")
                         rbtnMale.Checked = true;
