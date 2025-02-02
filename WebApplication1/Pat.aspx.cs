@@ -118,7 +118,7 @@ namespace WebApplication1
         protected void btnClose_Click(object sender, EventArgs e)
         {
             // Redirect to homepage (Kevin)
-            Response.Redirect("landingpage.aspx");
+            Response.Redirect("Homepage.aspx");
         }
     }
 }

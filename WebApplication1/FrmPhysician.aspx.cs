@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Security.Policy;
+using System.Net.NetworkInformation;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Xml.Linq;
 
 namespace WebApplication1
 {
-    public partial class FrmPhy : System.Web.UI.Page
+    public partial class FrmPhysician : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -90,6 +89,5 @@ namespace WebApplication1
             // Redirect to homepage (Kevin)
             Response.Redirect("landingpage.aspx");
         }
-
     }
 }

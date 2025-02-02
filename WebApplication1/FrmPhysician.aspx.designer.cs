@@ -11,17 +11,17 @@ namespace WebApplication1
 {
 
 
-    public partial class FrmPhy
+    public partial class FrmPhysician
     {
 
         /// <summary>
-        /// lblPrescriptions control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPrescriptions;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
         /// lblSearch control.
@@ -111,9 +111,6 @@ namespace WebApplication1
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-<<<<<<<< HEAD:WebApplication1/PatientPrescriptionSearch.aspx.designer.cs
-        protected global::System.Web.UI.WebControls.Button btnUpdate;
-========
         protected global::System.Web.UI.WebControls.TextBox txtPhone;
 
         /// <summary>
@@ -151,6 +148,5 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblErrorMessage;
->>>>>>>> master:WebApplication1/FrmPhy.aspx.designer.cs
     }
 }
