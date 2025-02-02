@@ -35,7 +35,7 @@
     <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click"/>
     <input type="reset" />
               <asp:Button ID="btnClose" runat="server" Text="Close" OnClick="btnClose_Click" />
-     <asp:Label ID="lblErrorMessage" runat="server" Text=""></asp:Label>
+     <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label>
 
 </div>
  </form>

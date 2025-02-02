@@ -83,7 +83,7 @@ namespace WebApplication1
         protected void btnClose_Click(object sender, EventArgs e)
         {
             // Redirect to a home page or close the current page
-            Response.Redirect("landingpage.aspx");
+            Response.Redirect("Homepage.aspx");
         }
     }
 }

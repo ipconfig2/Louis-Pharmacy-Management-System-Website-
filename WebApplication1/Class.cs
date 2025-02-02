@@ -179,9 +179,8 @@ namespace WebApplication1
             }
         }
 
-        public void AddPhysician(string Fname, string LName, string Email, string Phone)
+        public string AddPhysician(string Fname, string LName, string Email, string Phone)
         {
-
             bool IsAllLetters(string input)
             {
                 foreach (char c in input)
@@ -232,47 +231,51 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for First Name (Use only Letters)");
+                    return "Invalid format for First Name (Use only Letters)";
                 }
 
                 if (LName != null && IsAllLetters(LName) && LName != "")
                 {
-                    cmdString.Parameters.Add("@Lname", SqlDbType.VarChar, 50).Value = LName;
+                    cmdString.Parameters.Add("@LName", SqlDbType.VarChar, 50).Value = LName;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Last Name (Use only Letters)");
+                    return "Invalid format for Last Name (Use only Letters)";
                 }
 
-                if (IsValidEmailFormat(Email) && Email != "")
+                if (Email != null && IsValidEmailFormat(Email))
                 {
-                    cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 50).Value = Email;
+                    cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = Email;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Email (Use only Letters, Numbers, '@', '.', '-', and '_')");
+                    return "Invalid Email Format";
                 }
 
-                if (IsAllDigits(Phone) && Phone != "")
+                if (Phone != null && IsAllDigits(Phone))
                 {
-                    cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 50).Value = Phone;
+                    cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for phone number (Use only Numbers)");
+                    return "Invalid Phone Number (Use only digits)";
                 }
+
 
                 cmdString.ExecuteNonQuery();
+
+                return "Physician added successfully!";
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.Message);
+                return $"An error occurred: {ex.Message}";
             }
             finally
             {
                 myConn.Close();
             }
         }
+
 
         public void AddPrescription(string patientID, string physicianID, string medName, string dosage, string intMethod, int refillsLeft)
         {
@@ -640,41 +643,47 @@ namespace WebApplication1
             }
         }
 
-        public void UpdatePhysician(string physicianId, string Fname, string LName, string Email, string Phone)
+        public string UpdatePhysician(string physicianId, string Fname, string LName, string Email, string Phone)
         {
             bool IsAllLetters(string input)
             {
-                return input.All(char.IsLetter);
+                foreach (char c in input)
+                {
+                    if (!char.IsLetter(c))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
 
-            // Input validation
-            if (string.IsNullOrEmpty(physicianId) || !CheckPhyID(physicianId))
+            bool IsAllDigits(string input)
             {
-                throw new ArgumentException("Invalid Physician ID.");
+                foreach (char c in input)
+                {
+                    if (!char.IsDigit(c))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
 
-            if (string.IsNullOrEmpty(Fname) || !IsAllLetters(Fname))
+            bool IsValidEmailFormat(string input)
             {
-                throw new ArgumentException("First name should contain only letters.");
-            }
-
-            if (string.IsNullOrEmpty(LName) || !IsAllLetters(LName))
-            {
-                throw new ArgumentException("Last name should contain only letters.");
-            }
-
-            if (string.IsNullOrEmpty(Email) || !Email.Contains("@"))
-            {
-                throw new ArgumentException("Invalid email format.");
-            }
-
-            if (string.IsNullOrEmpty(Phone) || !Phone.All(char.IsDigit))
-            {
-                throw new ArgumentException("Phone number should contain only digits.");
+                foreach (char c in input)
+                {
+                    if (!(char.IsLetterOrDigit(c) || c == '@' || c == '.' || c == '-' || c == '_'))
+                    {
+                        return false;
+                    }
+                }
+                return input.Contains('@');
             }
 
             try
             {
+
                 myConn.Open();
                 cmdString.Parameters.Clear();
                 cmdString.Connection = myConn;
@@ -682,21 +691,60 @@ namespace WebApplication1
                 cmdString.CommandTimeout = 1500;
                 cmdString.CommandText = "UpdatePhysician";
 
-                cmdString.Parameters.Add("@PhysicianId", SqlDbType.VarChar, 25).Value = physicianId;
-                cmdString.Parameters.Add("@FirstName", SqlDbType.VarChar, 50).Value = Fname;
-                cmdString.Parameters.Add("@LastName", SqlDbType.VarChar, 50).Value = LName;
-                cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = Email;
-                cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
+                if (string.IsNullOrEmpty(physicianId) || !CheckPhyID(physicianId))
+                {
+                    return "Invalid Physician ID.";
+                }
+                else
+                {
+                    cmdString.Parameters.Add("@PhysicianId", SqlDbType.VarChar, 25).Value = physicianId;
+                }
 
+                if (!string.IsNullOrEmpty(Fname) && !IsAllLetters(Fname))
+                {
+                    return "First name should contain only letters.";
+                }
+                else if (!string.IsNullOrEmpty(Fname))
+                {
+                    cmdString.Parameters.Add("@FirstName", SqlDbType.VarChar, 50).Value = Fname;
+                }
+
+                if (!string.IsNullOrEmpty(LName) && !IsAllLetters(LName))
+                {
+                    return "Last name should contain only letters.";
+                }
+                else if (!string.IsNullOrEmpty(LName))
+                {
+                    cmdString.Parameters.Add("@LastName", SqlDbType.VarChar, 50).Value = LName;
+                }
+
+                if (!string.IsNullOrEmpty(Email) && !IsValidEmailFormat(Email))
+                {
+                    return "Invalid email format.";
+                }
+                else if (!string.IsNullOrEmpty(Email))
+                {
+                    cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = Email;
+                }
+
+                if (!string.IsNullOrEmpty(Phone) && !IsAllDigits(Phone))
+                {
+                    return "Phone number should contain only digits.";
+                }
+                else if (!string.IsNullOrEmpty(Phone))
+                {
+                    cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
+                }
                 cmdString.ExecuteNonQuery();
+
+                return "Physician details updated successfully.";
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
-                throw new InvalidOperationException("Database operation failed.", ex);
+                return $"Error: {ex.Message}";
             }
             finally
-            {
-                if (myConn.State == ConnectionState.Open)
+            {  
                     myConn.Close();
             }
         }
