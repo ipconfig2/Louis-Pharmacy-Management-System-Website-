@@ -1,0 +1,32 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Master.master.cs" Inherits="LAB456.Master" %>
+
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+    <head runat="server">
+    <title>My Site</title>
+         <asp:ContentPlaceHolder ID="ContentPlaceHolder2" runat="server">
+ </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div style="background-color: grey;">
+        <h1>My Site</h1>
+        <img src="coffee-beans.jfif" alt="Coffee Beans">
+    </div>
+    <div style="background-color: teal; height: 50px;">
+    </div>
+    <div style="background-color: lightblue; height: 50px;">
+    </div>
+    <footer>
+    <p>All data Copyright &copy; TSCT 2099</p>
+    <ul>
+        <li><a href="#">Send Comments</a></li>
+        <li><a href="#">Terms of Use</a></li>
+        <li><a href="#">Contacts</a></li>
+    </ul>
+</footer>
+
+</body>
+</html>

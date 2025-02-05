@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,7 +18,7 @@ namespace WebApplication1
 
         static System.Data.SqlClient.SqlCommand cmdString = new System.Data.SqlClient.SqlCommand();
 
-        public void AddPatient(string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
+        public string AddPatient(string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
         {
 
             try
@@ -74,7 +75,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for First Name (Use only Letters)");
+                    return "Invalid format for First Name (Use only Letters)";
                 }
 
                 if (IsAllLetters(LName))
@@ -83,7 +84,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Last Name (Use only Letters)");
+                 return "Invalid format for Last Name (Use only Letters)";
                 }
 
                 if (IsAllLetters(M_I))
@@ -92,7 +93,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Middle Initial (Use only Letters)");
+                    return "Invalid format for Middle Initial (Use only Letters)";
                 }
 
                 if (DateTime.TryParse(DOB, out DateTime parsedDOB))
@@ -101,7 +102,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid date format for DOB.");
+                 return "Invalid date format for DOB.";
                 }
 
                 if (IsAllLetters(Gender))
@@ -110,7 +111,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Gender (Use only Letters)");
+                    return "Invalid format for Gender (Use only Letters)";
                 }
 
                 cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
@@ -121,7 +122,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Street (Use only Letters, Numbers, and Spaces)");
+                    return "Invalid format for Street (Use only Letters, Numbers, and Spaces)";
                 }
 
                 if (IsAllLetters(CITY))
@@ -130,7 +131,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for City (Use only Letters)");
+                    return "Invalid format for City (Use only Letters)";
                 }
 
                 if (IsAllLetters(STATE_ADD))
@@ -139,7 +140,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for State (Use only Letters)");
+                    return "Invalid format for State (Use only Letters)";
                 }
 
                 cmdString.Parameters.Add("@ZIP", SqlDbType.VarChar, 5).Value = ZIP;
@@ -150,7 +151,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Country (Use only Letters)");
+                    return "Invalid format for Country (Use only Letters)";
                 }
 
                 if (IsAllLetters(Insurance) && (Insurance == "Yes" || Insurance == "No" || Insurance == "Y" || Insurance == "N"))
@@ -159,16 +160,17 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Insurance Yes, No, Y, N");
+                    return "Invalid format for Insurance Yes, No, Y, N";
                 }
 
                 cmdString.ExecuteNonQuery();
+                return "Patient added successfully!";
             }
 
             catch (Exception ex)
 
             {
-                throw new ArgumentException(ex.Message);
+                return(ex.Message);
 
             }
 
@@ -466,7 +468,7 @@ namespace WebApplication1
         }
 
 
-        public void UpdatePatient(string patientId, string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
+        public string UpdatePatient(string patientId, string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
         {
             bool IsAllLetters(string input)
             {
@@ -521,7 +523,7 @@ namespace WebApplication1
                 }
                 else if (string.IsNullOrEmpty(patientId))
                 {
-                    throw new ArgumentException("Patient ID cannot be empty or must exist");
+                    return "Patient ID cannot be empty or must exist";
                 }
 
                 if (!string.IsNullOrEmpty(Fname) && IsAllLetters(Fname))
@@ -530,7 +532,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(Fname))
                 {
-                    throw new ArgumentException("First name must contain only letters.");
+                    return "First name must contain only letters.";
                 }
 
                 if (!string.IsNullOrEmpty(LName) && IsAllLetters(LName))
@@ -539,7 +541,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(LName))
                 {
-                    throw new ArgumentException("Last name must contain only letters.");
+                    return "Last name must contain only letters.";
                 }
 
                 if (!string.IsNullOrEmpty(M_I) && M_I.Length == 1 && char.IsLetter(M_I[0]))
@@ -548,7 +550,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(M_I))
                 {
-                    throw new ArgumentException("Middle initial must be a single letter.");
+                    return "Middle initial must be a single letter.";
                 }
 
                 if (DateTime.TryParse(DOB, out DateTime parsedDOB))
@@ -557,7 +559,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(DOB))
                 {
-                    throw new ArgumentException("Invalid date format for DOB.");
+                     return "Invalid date format for DOB.";
                 }
 
                 if (!string.IsNullOrEmpty(Gender) && (Gender == "Male" || Gender == "Female"))
@@ -566,7 +568,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(Gender))
                 {
-                    throw new ArgumentException("Gender must be 'Male' or 'Female'.");
+                    return "Gender must be 'Male' or 'Female'.";
                 }
 
                 if (!string.IsNullOrEmpty(Phone) && IsLettersDigitsOrSpaces(Phone))
@@ -585,7 +587,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(CITY))
                 {
-                    throw new ArgumentException("City name must contain only letters.");
+                    return "City name must contain only letters.";
                 }
 
                 if (!string.IsNullOrEmpty(STATE_ADD) && STATE_ADD.Length == 2 && IsAllLetters(STATE_ADD))
@@ -594,7 +596,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(STATE_ADD))
                 {
-                    throw new ArgumentException("State abbreviation must be two letters.");
+                    return "State abbreviation must be two letters.";
                 }
 
                 if (!string.IsNullOrEmpty(ZIP) && ZIP.All(char.IsDigit) && ZIP.Length == 5)
@@ -603,7 +605,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(ZIP))
                 {
-                    throw new ArgumentException("ZIP code must contain only 5 digits.");
+                   return "ZIP code must contain only 5 digits.";
                 }
 
                 if (!string.IsNullOrEmpty(COUNTRY) && IsAllLetters(COUNTRY) && COUNTRY.Length == 3)
@@ -612,7 +614,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(COUNTRY))
                 {
-                    throw new ArgumentException("Country must contain only 3 letters.");
+                    return"Country must contain only 3 letters.";
                 }
 
                 if (!string.IsNullOrEmpty(Insurance) && IsAllLetters(Insurance) && (Insurance == "Yes" || Insurance == "No" || Insurance == "Y" || Insurance == "N"))
@@ -621,21 +623,16 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(Insurance))
                 {
-                    throw new ArgumentException("Insurance must contain only 3 letters (Yes or No).");
+                    return "Insurance must contain only 3 letters (Yes or No).";
                 }
 
                 cmdString.ExecuteNonQuery();
-                if (HttpContext.Current.Handler is Page page)
-                {
-                    page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Updated Patient');", true);
-                }
+                return "Patient updated successfully!";
+
             }
             catch (Exception ex)
             {
-                if (HttpContext.Current.Handler is Page page)
-                {
-                    page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('An error occurred: " + ex.Message + "');", true);
-                }
+                return (ex.Message);
             }
             finally
             {

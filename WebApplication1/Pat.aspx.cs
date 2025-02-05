@@ -46,8 +46,18 @@ namespace WebApplication1
                 ZIP = txtZip.Text.Trim();
                 Country = txtCity.Text.Trim();
                 Insurance = txtInsurance.Text.Trim();
-                Class dataService = new Class();
-                dataService.AddPatient(Fname, M_I, LName, DOB, Gender, Phone, Address, CITY, STATE, ZIP, Country, Insurance);
+                Class dataService2 = new Class();
+                string message = dataService2.AddPatient(Fname, M_I, LName, DOB, Gender, Phone, Address, CITY, STATE, ZIP, Country, Insurance);
+                lblMessage.Text = message;
+
+                if (message == "Patient added successfully!")
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                }
             }
             else if (selectedMode == "Update")
             {
@@ -85,8 +95,19 @@ namespace WebApplication1
                 ZIP = txtZip.Text.Trim();
                 Country = txtCity.Text.Trim();
                 Insurance = txtInsurance.Text.Trim();
-                Class dataService = new Class();
-                dataService.UpdatePatient(patientId, Fname, M_I, LName, DOB, Gender, Phone, Address, CITY, STATE, ZIP, Country, Insurance);
+                Class dataService2 = new Class();
+                string message = dataService2.UpdatePatient(patientId, Fname, M_I, LName, DOB, Gender, Phone, Address, CITY, STATE, ZIP, Country, Insurance);
+                lblMessage.Text = message;
+
+                if (message == "Patient updated successfully!")
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                }
+
             }
 
         }
