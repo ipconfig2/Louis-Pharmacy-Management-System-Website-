@@ -1,5 +1,7 @@
-﻿<%@ Page Title="Patient Prescriptions Search" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="PatientPrescriptionSearch.aspx.cs" Inherits="WebApplication1.View_Patients_Perscriptions" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+﻿<%@ Page Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="FrmPatientPrescriptionSearch.aspx.cs" Inherits="WebApplication1.FrmPatientPrescriptionSearch" %>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="head" runat="server">
+    <title>Patient Prescription Search</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
         <div class="container p-5 my-5 border">
@@ -27,4 +29,4 @@
 
         </div>
   </asp:Content>
-    
+   

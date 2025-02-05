@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,7 +18,7 @@ namespace WebApplication1
 
         static System.Data.SqlClient.SqlCommand cmdString = new System.Data.SqlClient.SqlCommand();
 
-        public void AddPatient(string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
+        public string AddPatient(string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
         {
 
             try
@@ -74,7 +75,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for First Name (Use only Letters)");
+                    return "Invalid format for First Name (Use only Letters)";
                 }
 
                 if (IsAllLetters(LName))
@@ -83,7 +84,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Last Name (Use only Letters)");
+                 return "Invalid format for Last Name (Use only Letters)";
                 }
 
                 if (IsAllLetters(M_I))
@@ -92,7 +93,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Middle Initial (Use only Letters)");
+                    return "Invalid format for Middle Initial (Use only Letters)";
                 }
 
                 if (DateTime.TryParse(DOB, out DateTime parsedDOB))
@@ -101,7 +102,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid date format for DOB.");
+                 return "Invalid date format for DOB.";
                 }
 
                 if (IsAllLetters(Gender))
@@ -110,7 +111,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Gender (Use only Letters)");
+                    return "Invalid format for Gender (Use only Letters)";
                 }
 
                 cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
@@ -121,7 +122,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Street (Use only Letters, Numbers, and Spaces)");
+                    return "Invalid format for Street (Use only Letters, Numbers, and Spaces)";
                 }
 
                 if (IsAllLetters(CITY))
@@ -130,7 +131,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for City (Use only Letters)");
+                    return "Invalid format for City (Use only Letters)";
                 }
 
                 if (IsAllLetters(STATE_ADD))
@@ -139,7 +140,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for State (Use only Letters)");
+                    return "Invalid format for State (Use only Letters)";
                 }
 
                 cmdString.Parameters.Add("@ZIP", SqlDbType.VarChar, 5).Value = ZIP;
@@ -150,7 +151,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Country (Use only Letters)");
+                    return "Invalid format for Country (Use only Letters)";
                 }
 
                 if (IsAllLetters(Insurance) && (Insurance == "Yes" || Insurance == "No" || Insurance == "Y" || Insurance == "N"))
@@ -159,16 +160,17 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Insurance Yes, No, Y, N");
+                    return "Invalid format for Insurance Yes, No, Y, N";
                 }
 
                 cmdString.ExecuteNonQuery();
+                return "Patient added successfully!";
             }
 
             catch (Exception ex)
 
             {
-                throw new ArgumentException(ex.Message);
+                return(ex.Message);
 
             }
 
@@ -179,9 +181,8 @@ namespace WebApplication1
             }
         }
 
-        public void AddPhysician(string Fname, string LName, string Email, string Phone)
+        public string AddPhysician(string Fname, string LName, string Email, string Phone)
         {
-
             bool IsAllLetters(string input)
             {
                 foreach (char c in input)
@@ -232,47 +233,51 @@ namespace WebApplication1
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for First Name (Use only Letters)");
+                    return "Invalid format for First Name (Use only Letters)";
                 }
 
                 if (LName != null && IsAllLetters(LName) && LName != "")
                 {
-                    cmdString.Parameters.Add("@Lname", SqlDbType.VarChar, 50).Value = LName;
+                    cmdString.Parameters.Add("@LName", SqlDbType.VarChar, 50).Value = LName;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Last Name (Use only Letters)");
+                    return "Invalid format for Last Name (Use only Letters)";
                 }
 
-                if (IsValidEmailFormat(Email) && Email != "")
+                if (Email != null && IsValidEmailFormat(Email))
                 {
-                    cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 50).Value = Email;
+                    cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = Email;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for Email (Use only Letters, Numbers, '@', '.', '-', and '_')");
+                    return "Invalid Email Format";
                 }
 
-                if (IsAllDigits(Phone) && Phone != "")
+                if (Phone != null && IsAllDigits(Phone))
                 {
-                    cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 50).Value = Phone;
+                    cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid format for phone number (Use only Numbers)");
+                    return "Invalid Phone Number (Use only digits)";
                 }
+
 
                 cmdString.ExecuteNonQuery();
+
+                return "Physician added successfully!";
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.Message);
+                return $"An error occurred: {ex.Message}";
             }
             finally
             {
                 myConn.Close();
             }
         }
+
 
         public void AddPrescription(string patientID, string physicianID, string medName, string dosage, string intMethod, int refillsLeft)
         {
@@ -463,7 +468,7 @@ namespace WebApplication1
         }
 
 
-        public void UpdatePatient(string patientId, string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
+        public string UpdatePatient(string patientId, string Fname, string M_I, string LName, string DOB, string Gender, string Phone, string STREET, string CITY, string STATE_ADD, string ZIP, string COUNTRY, string Insurance)
         {
             bool IsAllLetters(string input)
             {
@@ -518,7 +523,7 @@ namespace WebApplication1
                 }
                 else if (string.IsNullOrEmpty(patientId))
                 {
-                    throw new ArgumentException("Patient ID cannot be empty or must exist");
+                    return "Patient ID cannot be empty or must exist";
                 }
 
                 if (!string.IsNullOrEmpty(Fname) && IsAllLetters(Fname))
@@ -527,7 +532,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(Fname))
                 {
-                    throw new ArgumentException("First name must contain only letters.");
+                    return "First name must contain only letters.";
                 }
 
                 if (!string.IsNullOrEmpty(LName) && IsAllLetters(LName))
@@ -536,7 +541,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(LName))
                 {
-                    throw new ArgumentException("Last name must contain only letters.");
+                    return "Last name must contain only letters.";
                 }
 
                 if (!string.IsNullOrEmpty(M_I) && M_I.Length == 1 && char.IsLetter(M_I[0]))
@@ -545,7 +550,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(M_I))
                 {
-                    throw new ArgumentException("Middle initial must be a single letter.");
+                    return "Middle initial must be a single letter.";
                 }
 
                 if (DateTime.TryParse(DOB, out DateTime parsedDOB))
@@ -554,7 +559,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(DOB))
                 {
-                    throw new ArgumentException("Invalid date format for DOB.");
+                     return "Invalid date format for DOB.";
                 }
 
                 if (!string.IsNullOrEmpty(Gender) && (Gender == "Male" || Gender == "Female"))
@@ -563,7 +568,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(Gender))
                 {
-                    throw new ArgumentException("Gender must be 'Male' or 'Female'.");
+                    return "Gender must be 'Male' or 'Female'.";
                 }
 
                 if (!string.IsNullOrEmpty(Phone) && IsLettersDigitsOrSpaces(Phone))
@@ -582,7 +587,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(CITY))
                 {
-                    throw new ArgumentException("City name must contain only letters.");
+                    return "City name must contain only letters.";
                 }
 
                 if (!string.IsNullOrEmpty(STATE_ADD) && STATE_ADD.Length == 2 && IsAllLetters(STATE_ADD))
@@ -591,7 +596,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(STATE_ADD))
                 {
-                    throw new ArgumentException("State abbreviation must be two letters.");
+                    return "State abbreviation must be two letters.";
                 }
 
                 if (!string.IsNullOrEmpty(ZIP) && ZIP.All(char.IsDigit) && ZIP.Length == 5)
@@ -600,7 +605,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(ZIP))
                 {
-                    throw new ArgumentException("ZIP code must contain only 5 digits.");
+                   return "ZIP code must contain only 5 digits.";
                 }
 
                 if (!string.IsNullOrEmpty(COUNTRY) && IsAllLetters(COUNTRY) && COUNTRY.Length == 3)
@@ -609,7 +614,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(COUNTRY))
                 {
-                    throw new ArgumentException("Country must contain only 3 letters.");
+                    return"Country must contain only 3 letters.";
                 }
 
                 if (!string.IsNullOrEmpty(Insurance) && IsAllLetters(Insurance) && (Insurance == "Yes" || Insurance == "No" || Insurance == "Y" || Insurance == "N"))
@@ -618,21 +623,16 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(Insurance))
                 {
-                    throw new ArgumentException("Insurance must contain only 3 letters (Yes or No).");
+                    return "Insurance must contain only 3 letters (Yes or No).";
                 }
 
                 cmdString.ExecuteNonQuery();
-                if (HttpContext.Current.Handler is Page page)
-                {
-                    page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Updated Patient');", true);
-                }
+                return "Patient updated successfully!";
+
             }
             catch (Exception ex)
             {
-                if (HttpContext.Current.Handler is Page page)
-                {
-                    page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('An error occurred: " + ex.Message + "');", true);
-                }
+                return (ex.Message);
             }
             finally
             {
@@ -640,41 +640,47 @@ namespace WebApplication1
             }
         }
 
-        public void UpdatePhysician(string physicianId, string Fname, string LName, string Email, string Phone)
+        public string UpdatePhysician(string physicianId, string Fname, string LName, string Email, string Phone)
         {
             bool IsAllLetters(string input)
             {
-                return input.All(char.IsLetter);
+                foreach (char c in input)
+                {
+                    if (!char.IsLetter(c))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
 
-            // Input validation
-            if (string.IsNullOrEmpty(physicianId) || !CheckPhyID(physicianId))
+            bool IsAllDigits(string input)
             {
-                throw new ArgumentException("Invalid Physician ID.");
+                foreach (char c in input)
+                {
+                    if (!char.IsDigit(c))
+                    {
+                        return false;
+                    }
+                }
+                return true;
             }
 
-            if (string.IsNullOrEmpty(Fname) || !IsAllLetters(Fname))
+            bool IsValidEmailFormat(string input)
             {
-                throw new ArgumentException("First name should contain only letters.");
-            }
-
-            if (string.IsNullOrEmpty(LName) || !IsAllLetters(LName))
-            {
-                throw new ArgumentException("Last name should contain only letters.");
-            }
-
-            if (string.IsNullOrEmpty(Email) || !Email.Contains("@"))
-            {
-                throw new ArgumentException("Invalid email format.");
-            }
-
-            if (string.IsNullOrEmpty(Phone) || !Phone.All(char.IsDigit))
-            {
-                throw new ArgumentException("Phone number should contain only digits.");
+                foreach (char c in input)
+                {
+                    if (!(char.IsLetterOrDigit(c) || c == '@' || c == '.' || c == '-' || c == '_'))
+                    {
+                        return false;
+                    }
+                }
+                return input.Contains('@');
             }
 
             try
             {
+
                 myConn.Open();
                 cmdString.Parameters.Clear();
                 cmdString.Connection = myConn;
@@ -682,21 +688,60 @@ namespace WebApplication1
                 cmdString.CommandTimeout = 1500;
                 cmdString.CommandText = "UpdatePhysician";
 
-                cmdString.Parameters.Add("@PhysicianId", SqlDbType.VarChar, 25).Value = physicianId;
-                cmdString.Parameters.Add("@FirstName", SqlDbType.VarChar, 50).Value = Fname;
-                cmdString.Parameters.Add("@LastName", SqlDbType.VarChar, 50).Value = LName;
-                cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = Email;
-                cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
+                if (string.IsNullOrEmpty(physicianId) || !CheckPhyID(physicianId))
+                {
+                    return "Invalid Physician ID.";
+                }
+                else
+                {
+                    cmdString.Parameters.Add("@PhysicianId", SqlDbType.VarChar, 25).Value = physicianId;
+                }
 
+                if (!string.IsNullOrEmpty(Fname) && !IsAllLetters(Fname))
+                {
+                    return "First name should contain only letters.";
+                }
+                else if (!string.IsNullOrEmpty(Fname))
+                {
+                    cmdString.Parameters.Add("@FirstName", SqlDbType.VarChar, 50).Value = Fname;
+                }
+
+                if (!string.IsNullOrEmpty(LName) && !IsAllLetters(LName))
+                {
+                    return "Last name should contain only letters.";
+                }
+                else if (!string.IsNullOrEmpty(LName))
+                {
+                    cmdString.Parameters.Add("@LastName", SqlDbType.VarChar, 50).Value = LName;
+                }
+
+                if (!string.IsNullOrEmpty(Email) && !IsValidEmailFormat(Email))
+                {
+                    return "Invalid email format.";
+                }
+                else if (!string.IsNullOrEmpty(Email))
+                {
+                    cmdString.Parameters.Add("@Email", SqlDbType.VarChar, 100).Value = Email;
+                }
+
+                if (!string.IsNullOrEmpty(Phone) && !IsAllDigits(Phone))
+                {
+                    return "Phone number should contain only digits.";
+                }
+                else if (!string.IsNullOrEmpty(Phone))
+                {
+                    cmdString.Parameters.Add("@Phone", SqlDbType.VarChar, 15).Value = Phone;
+                }
                 cmdString.ExecuteNonQuery();
+
+                return "Physician details updated successfully.";
             }
-            catch (SqlException ex)
+            catch (Exception ex)
             {
-                throw new InvalidOperationException("Database operation failed.", ex);
+                return $"Error: {ex.Message}";
             }
             finally
-            {
-                if (myConn.State == ConnectionState.Open)
+            {  
                     myConn.Close();
             }
         }

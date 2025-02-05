@@ -64,15 +64,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AddPhysician.aspx" />
-<<<<<<< HEAD
-=======
-    <Content Include="FrmPhy.aspx" />
+    <Content Include="FrmPatientPrescriptionSearch.aspx" />
+    <Content Include="FrmPhysician.aspx" />
     <Content Include="Pat.aspx" />
-    <Content Include="Update_Patient.aspx" />
     <Content Include="Update_Prescriptions.aspx" />
->>>>>>> master
-    <Content Include="Add_Pat.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -91,38 +86,14 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="error.aspx" />
     <Content Include="Homepage.aspx" />
-    <Content Include="SearchPatient.aspx" />
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Content Include="SearchRefill.aspx" />
-    <Content Include="PatientPrescriptionSearch.aspx" />
-    <Content Include="SearchPhysician.aspx" />
-=======
-    <Content Include="Veiw_Pat.aspx" />
-    <Content Include="ViewRefill.aspx" />
-    <Content Include="View_Phy.aspx" />
->>>>>>> master
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NewPhysician.aspx.cs">
-      <DependentUpon>NewPhysician.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="NewPhysician.aspx.designer.cs">
-      <DependentUpon>NewPhysician.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="NewPatient.aspx.cs">
-      <DependentUpon>NewPatient.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="NewPatient.aspx.designer.cs">
-      <DependentUpon>NewPatient.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Class.cs" />
     <Compile Include="error.aspx.cs">
       <DependentUpon>error.aspx</DependentUpon>
@@ -131,20 +102,22 @@
     <Compile Include="error.aspx.designer.cs">
       <DependentUpon>error.aspx</DependentUpon>
     </Compile>
-<<<<<<< HEAD
-    <Compile Include="Homepage.aspx.cs">
-      <DependentUpon>Homepage.aspx</DependentUpon>
-=======
-    <Compile Include="FrmPhy.aspx.cs">
-      <DependentUpon>FrmPhy.aspx</DependentUpon>
+    <Compile Include="FrmPatientPrescriptionSearch.aspx.cs">
+      <DependentUpon>FrmPatientPrescriptionSearch.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FrmPhy.aspx.designer.cs">
-      <DependentUpon>FrmPhy.aspx</DependentUpon>
+    <Compile Include="FrmPatientPrescriptionSearch.aspx.designer.cs">
+      <DependentUpon>FrmPatientPrescriptionSearch.aspx</DependentUpon>
     </Compile>
-    <Compile Include="landingpage.aspx.cs">
-      <DependentUpon>landingpage.aspx</DependentUpon>
->>>>>>> master
+    <Compile Include="FrmPhysician.aspx.cs">
+      <DependentUpon>FrmPhysician.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FrmPhysician.aspx.designer.cs">
+      <DependentUpon>FrmPhysician.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Homepage.aspx.cs">
+      <DependentUpon>Homepage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Homepage.aspx.designer.cs">
@@ -165,39 +138,6 @@
       <DependentUpon>Pat.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View_Pat.aspx.cs">
-      <DependentUpon>View_Pat.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SearchPatient.aspx.designer.cs">
-      <DependentUpon>SearchPatient.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SearchRefill.aspx.cs">
-      <DependentUpon>SearchRefill.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SearchRefill.aspx.designer.cs">
-      <DependentUpon>SearchRefill.aspx</DependentUpon>
-    </Compile>
-<<<<<<< HEAD
-    <Compile Include="PatientPrescriptionSearch.aspx.cs">
-      <DependentUpon>PatientPrescriptionSearch.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PatientPrescriptionSearch.aspx.designer.cs">
-      <DependentUpon>PatientPrescriptionSearch.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SearchPhysician.aspx.cs">
-      <DependentUpon>SearchPhysician.aspx</DependentUpon>
-=======
-    <Compile Include="View_Phy.aspx.cs">
-      <DependentUpon>View_Phy.aspx</DependentUpon>
->>>>>>> master
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SearchPhysician.aspx.designer.cs">
-      <DependentUpon>SearchPhysician.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="libman.json" />

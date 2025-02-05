@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Security.Policy;
+using System.Net.NetworkInformation;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Xml.Linq;
 
 namespace WebApplication1
 {
-    public partial class FrmPhy : System.Web.UI.Page
+    public partial class FrmPhysician : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -35,12 +34,7 @@ namespace WebApplication1
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-
-            lblErrorMessage.Visible = false;
-
             string selectedMode = Mode.SelectedValue;
-            string resultMessage = string.Empty;
-
 
             if (selectedMode == "Add")
             {
@@ -53,7 +47,17 @@ namespace WebApplication1
                 Phone = txtPhone.Text.Trim();
                 Email = txtEmail.Text.Trim();
                 Class dataService2 = new Class();
-                dataService2.AddPhysician(Fname, LName, Email, Phone);
+                string message = dataService2.AddPhysician(txtFname.Text, txtLname.Text, txtEmail.Text, txtPhone.Text);
+                lblMessage.Text = message;
+
+                if (message == "Physician added successfully!")
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                }
             }
             else if (selectedMode == "Update")
             {
@@ -76,7 +80,17 @@ namespace WebApplication1
                 Phone = txtPhone.Text.Trim();
                 Email = txtEmail.Text.Trim();
                 Class dataService2 = new Class();
-                dataService2.UpdatePhysician(physicianId, Fname, LName, Email, Phone);
+                string message = dataService2.AddPhysician(txtFname.Text, txtLname.Text, txtEmail.Text, txtPhone.Text);
+                lblMessage.Text = message;
+
+                if (message == "Physician details updated successfully.")
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                }
             }
 
         }
@@ -88,8 +102,7 @@ namespace WebApplication1
         protected void btnClose_Click(object sender, EventArgs e)
         {
             // Redirect to homepage (Kevin)
-            Response.Redirect("landingpage.aspx");
+            Response.Redirect("Homepage.aspx");
         }
-
     }
 }

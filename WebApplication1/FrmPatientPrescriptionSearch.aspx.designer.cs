@@ -11,7 +11,7 @@ namespace WebApplication1
 {
 
 
-    public partial class FrmPhy
+    public partial class FrmPatientPrescriptionSearch
     {
 
         /// <summary>
@@ -24,22 +24,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Label lblPrescriptions;
 
         /// <summary>
-        /// lblSearch control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSearch;
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// txtSearch control.
+        /// txtPatientSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtSearch;
+        protected global::System.Web.UI.WebControls.TextBox txtPatientSearch;
 
         /// <summary>
         /// btnSearch control.
@@ -51,106 +51,66 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button btnSearch;
 
         /// <summary>
-        /// gvPhysicianData control.
+        /// lblPatientName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPhysicianData;
+        protected global::System.Web.UI.WebControls.Label lblPatientName;
 
         /// <summary>
-        /// Mode control.
+        /// lblDOB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList Mode;
+        protected global::System.Web.UI.WebControls.Label lblDOB;
 
         /// <summary>
-        /// UpdatePanel control.
+        /// lblAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel UpdatePanel;
+        protected global::System.Web.UI.WebControls.Label lblAddress;
 
         /// <summary>
-        /// txtphysicianId control.
+        /// lblPhone control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtphysicianId;
+        protected global::System.Web.UI.WebControls.Label lblPhone;
 
         /// <summary>
-        /// txtFname control.
+        /// gvPrescriptions control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFname;
+        protected global::System.Web.UI.WebControls.GridView gvPrescriptions;
 
         /// <summary>
-        /// txtLname control.
+        /// btnDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLname;
+        protected global::System.Web.UI.WebControls.Button btnDelete;
 
         /// <summary>
-        /// txtPhone control.
+        /// btnUpdate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-<<<<<<<< HEAD:WebApplication1/PatientPrescriptionSearch.aspx.designer.cs
         protected global::System.Web.UI.WebControls.Button btnUpdate;
-========
-        protected global::System.Web.UI.WebControls.TextBox txtPhone;
-
-        /// <summary>
-        /// txtEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
-
-        /// <summary>
-        /// btnSubmit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmit;
-
-        /// <summary>
-        /// btnClose control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClose;
-
-        /// <summary>
-        /// lblErrorMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorMessage;
->>>>>>>> master:WebApplication1/FrmPhy.aspx.designer.cs
     }
 }

@@ -1,9 +1,13 @@
 ﻿using System;
-using System.Data;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace WebApplication1
 {
-    public partial class View_Patients_Perscriptions : System.Web.UI.Page
+    public partial class FrmPatientPrescriptionSearch : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -13,6 +17,7 @@ namespace WebApplication1
                 btnUpdate.Enabled = false;
             }
         }
+
         protected void btnSearch_Click(object sender, EventArgs e)
         {
             string patientID = txtPatientSearch.Text.Trim();
@@ -61,24 +66,24 @@ namespace WebApplication1
             }
         }
 
-       
-          protected void btnUpdate_Click(object sender, EventArgs e)
-          {
-              if (gvPrescriptions.SelectedRow != null)
-              {
-                  string prescID = gvPrescriptions.SelectedRow.Cells[0].Text;
-                  Response.Redirect($"UpdatePrescription.aspx?prescID={prescID}");
-              }
-              else
-              {
-                  ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Please select a prescription to update.');", true);
-              }
-          }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (gvPrescriptions.SelectedRow != null)
+            {
+                string prescID = gvPrescriptions.SelectedRow.Cells[0].Text;
+                Response.Redirect($"UpdatePrescription.aspx?prescID={prescID}");
+            }
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Please select a prescription to update.');", true);
+            }
+        }
 
         protected void btnClose_Click(object sender, EventArgs e)
         {
             // Redirect to a home page or close the current page
-            Response.Redirect("landingpage.aspx");
+            Response.Redirect("Homepage.aspx");
         }
     }
 }
