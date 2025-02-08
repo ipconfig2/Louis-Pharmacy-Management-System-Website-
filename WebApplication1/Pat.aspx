@@ -16,7 +16,6 @@
 
     <asp:GridView ID="dgvPatientData" runat="server" AutoGenerateColumns="true" EmptyDataText="No records found"> </asp:GridView>
 </div>
-       
         <div>
 <asp:RadioButtonList ID="Mode" runat="server" AutoPostBack="True" OnSelectedIndexChanged="Mode_SelectedIndexChanged">
     <asp:ListItem Value="Add" Selected="True">Add</asp:ListItem>
@@ -24,6 +23,8 @@
 </asp:RadioButtonList>
  <asp:Panel ID="UpdatePanel" runat="server" Visible="False">
     <p>Patient ID:</p><asp:TextBox ID="txtpatientId" runat="server"></asp:TextBox> <br />
+          <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" />
+
 </asp:Panel>
             <p>First Name:</p><asp:TextBox ID="txtFname" runat="server"></asp:TextBox> <br />
             <p>MI:</p><asp:TextBox ID="txtMi" runat="server"></asp:TextBox> <br />

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -176,6 +177,85 @@ namespace WebApplication1
 
             finally
 
+            {
+                myConn.Close();
+            }
+        }
+
+        public string DeletePhysician(string PhysicianID)
+        {
+            try
+            {
+                myConn.Open();
+
+                cmdString.Parameters.Clear();
+
+              
+                cmdString.Connection = myConn;
+                cmdString.CommandType = CommandType.StoredProcedure;
+                cmdString.CommandTimeout = 1500;
+                cmdString.CommandText = "DeletePhysician"; 
+
+             
+                    cmdString.Parameters.Add("@PhysicianID", SqlDbType.VarChar, 20).Value = PhysicianID;
+
+
+             
+                int rowsAffected = cmdString.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    return "Physician deleted successfully.";
+                }
+                else
+                {
+                    return "Physician ID not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Error: " + ex.Message;
+            }
+            finally
+            {
+                myConn.Close();
+            }
+        }
+        public string DeletePatient(string PatientID)
+        {
+            try
+            {
+                myConn.Open();
+
+                cmdString.Parameters.Clear();
+
+
+                cmdString.Connection = myConn;
+                cmdString.CommandType = CommandType.StoredProcedure;
+                cmdString.CommandTimeout = 1500;
+                cmdString.CommandText = "DeletePatient";
+
+
+                cmdString.Parameters.Add("@PatientID", SqlDbType.VarChar, 20).Value = PatientID;
+
+
+
+                int rowsAffected = cmdString.ExecuteNonQuery();
+
+                if (rowsAffected > 0)
+                {
+                    return "Patient deleted successfully.";
+                }
+                else
+                {
+                    return "Patient ID not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Error: " + ex.Message;
+            }
+            finally
             {
                 myConn.Close();
             }
@@ -1133,69 +1213,6 @@ namespace WebApplication1
             }
         }
 
-
-
-        public void DeletePatient(string PatID)
-        {
-            try
-
-            {
-                // open connection
-                myConn.Open();
-                //clear any parameters
-                cmdString.Parameters.Clear();
-                // command
-                cmdString.Connection = myConn;
-                cmdString.CommandType = CommandType.StoredProcedure;
-                cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "DeletePatient";
-                // Define input parameter
-                cmdString.Parameters.Add("@PATIENTID", SqlDbType.VarChar, 25).Value = PatID;
-                // adapter and dataset
-                SqlDataAdapter aAdapter = new SqlDataAdapter();
-                cmdString.ExecuteNonQuery();
-
-            }
-            catch (Exception ex)
-            {
-                throw new ArgumentException(ex.Message);
-            }
-            finally
-            {
-                myConn.Close();
-            }
-
-        }
-        public void DeleteDoctor(string docID)
-        {
-            try
-            {
-                // open connection
-                myConn.Open();
-                //clear any parameters
-                cmdString.Parameters.Clear();
-                // command
-                cmdString.Connection = myConn;
-                cmdString.CommandType = CommandType.StoredProcedure;
-                cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "DeleteDoctor";
-                // Define input parameter
-                cmdString.Parameters.Add("@DOCTORID", SqlDbType.VarChar, 20).Value = docID;
-                // adapter and dataset
-                SqlDataAdapter aAdapter = new SqlDataAdapter();
-                cmdString.ExecuteNonQuery();
-
-            }
-            catch (Exception ex)
-            {
-                throw new ArgumentException(ex.Message);
-            }
-            finally
-            {
-                myConn.Close();
-            }
-
-        }
         public void DeletePresc(string prescID)
         {
             try

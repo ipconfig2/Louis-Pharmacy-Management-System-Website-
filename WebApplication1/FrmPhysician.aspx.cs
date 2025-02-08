@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Net.NetworkInformation;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -25,11 +23,13 @@ namespace WebApplication1
             gvPhysicianData.DataSource = physicianData.Tables[0];
             gvPhysicianData.DataBind();
 
+
             if (physicianData.Tables[0].Rows.Count == 0)
             {
                 lblSearch.Text = "No records found.";
             }
         }
+
         string physicianId, Fname, LName, Phone, Email;
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -92,16 +92,41 @@ namespace WebApplication1
                     lblMessage.ForeColor = System.Drawing.Color.Red;
                 }
             }
-
         }
 
-        protected void Mode_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string physicianId = txtphysicianId.Text.Trim();
+
+                if (string.IsNullOrEmpty(physicianId))
+                {
+                    lblMessage.Text = "Please enter a valid Physician ID.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
+                Class dataService = new Class();
+                string message = dataService.DeletePhysician(physicianId);
+
+                lblMessage.Text = message;
+                lblMessage.ForeColor = message == "Physician deleted successfully." ? System.Drawing.Color.Green : System.Drawing.Color.Red;
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error: " + ex.Message;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
+        }
+
+protected void Mode_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdatePanel.Visible = (Mode.SelectedValue == "Update");
         }
+
         protected void btnClose_Click(object sender, EventArgs e)
         {
-            // Redirect to homepage (Kevin)
             Response.Redirect("Homepage.aspx");
         }
     }

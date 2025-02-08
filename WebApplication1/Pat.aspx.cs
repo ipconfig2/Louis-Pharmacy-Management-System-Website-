@@ -112,6 +112,33 @@ namespace WebApplication1
 
         }
 
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string patientId = txtpatientId.Text.Trim();
+
+                if (string.IsNullOrEmpty(patientId))
+                {
+                    lblMessage.Text = "Please enter a valid patient ID.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
+                Class dataService = new Class();
+                string message = dataService.DeletePatient(patientId);
+
+                lblMessage.Text = message;
+                lblMessage.ForeColor = message == "patient deleted successfully." ? System.Drawing.Color.Green : System.Drawing.Color.Red;
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error: " + ex.Message;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
+        }
+
         protected void Mode_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdatePanel.Visible = (Mode.SelectedValue == "Update");
