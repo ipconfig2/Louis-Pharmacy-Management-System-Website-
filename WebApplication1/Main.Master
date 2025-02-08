@@ -115,39 +115,21 @@
               </a>
             </li>
             <li>
-              <a href="NewPatient.aspx" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="NewPatient.aspx"></use></svg>
-                New Patient
+              <a href="Pat.aspx" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="Pat.aspx"></use></svg>
+                Patient
               </a>
             </li>
             <li>
-              <a href="SearchPatient.aspx" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="SearchPatient.aspx"></use></svg>
-                Search Patient
+              <a href="FrmPhysician.aspx" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="FrmPhysician.aspx"></use></svg>
+                Physician
               </a>
             </li>
             <li>
-              <a href="NewPhysician.aspx" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="NewPhysician.aspx"></use></svg>
-                New Physician
-              </a>
-            </li>
-            <li>
-              <a href="SearchPhysician.aspx" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="SearchPhysician.aspx"></use></svg>
-                Search Physician 
-              </a>
-            </li>
-            <li>
-               <a href="PatientPrescriptionSearch.aspx" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="PatientPrescriptionSearch.aspx"></use></svg>
-                Patient Prescription Search 
-              </a>
-            </li>
-              <li>
-               <a href="SearchRefill.aspx" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="SearchRefill.aspx"></use></svg>
-                Search Refill
+              <a href="FrmPatientPrescriptionSearch.aspx" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="FrmPatientPrescriptionSearch.aspx"></use></svg>
+                Prescription
               </a>
             </li>
           </ul>
