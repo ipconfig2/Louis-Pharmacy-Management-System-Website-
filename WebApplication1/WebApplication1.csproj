@@ -64,7 +64,9 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="employee.jpg" />
     <Content Include="FrmPhysician.aspx" />
+    <Content Include="home.jpg" />
     <Content Include="Pat.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
