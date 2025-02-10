@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Update_Prescriptions.aspx.cs" Inherits="WebApplication1.View_Patients_Perscriptions" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Update_Prescriptions.aspx.cs" Inherits="WebApplication1.Update_Prescriptions"%>
 
 <!DOCTYPE html>
 <html>
@@ -20,8 +20,7 @@
         }
     }
     </script>
-<<<<<<< HEAD
-=======
+
     <script type="text/javascript">
         window.onload = function () {
             var grid = document.getElementById('<%= gvPrescriptions.ClientID %>');
@@ -35,8 +34,6 @@
             }
         };
     </script>
-
->>>>>>> update message
 
 <body>
     <form id="form1" runat="server">
@@ -52,10 +49,7 @@
             <br /><br />
             <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label>
             <br /><br />
-<<<<<<< HEAD
-            <asp:GridView ID="gvPrescriptions" runat="server" AutoGenerateColumns="true" OnSelectedIndexChanged="gvPrescriptions_SelectedIndexChanged">
-            </asp:GridView>
-=======
+
             
 
             <asp:GridView ID="gvPrescriptions" runat="server" AutoGenerateColumns="False" 
@@ -71,7 +65,6 @@
     </Columns>
 </asp:GridView>
 
->>>>>>> update message
 
             <br />
 
@@ -89,10 +82,8 @@
             <asp:Label ID="lblIntMethod" runat="server" Text="Intake: "></asp:Label>
             <asp:TextBox ID="txtIntMethod" runat="server"></asp:TextBox>
 
-<<<<<<< HEAD
             <br /><br />
 
-=======
                         <asp:Label ID="lblPatientID" runat="server" Text="PatientID: "></asp:Label>
             <asp:TextBox ID="txtPatientID" runat="server"></asp:TextBox>
 
@@ -101,7 +92,6 @@
 
             <br /><br />
             <asp:Button ID="btnAddPrescription" runat="server" Text="Add Prescription" OnClick="btnAddPrescription_Click" />
->>>>>>> update message
             <asp:Button ID="btnDelete" runat="server" Text="Delete Prescription" OnClick="btnDelete_Click" Enabled="true" />
             <asp:Button ID="btnUpdate" runat="server" Text="Update Prescription" OnClick="btnUpdate_Click" Enabled="true" />
             <asp:Button ID="btnClose" runat="server" Text="Close" OnClick="btnClose_Click" />

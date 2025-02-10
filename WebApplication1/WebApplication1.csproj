@@ -64,10 +64,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FrmPatientPrescriptionSearch.aspx" />
     <Content Include="FrmPhysician.aspx" />
     <Content Include="Pat.aspx" />
-    <Content Include="Update_Prescriptions.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -101,13 +99,6 @@
     </Compile>
     <Compile Include="error.aspx.designer.cs">
       <DependentUpon>error.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FrmPatientPrescriptionSearch.aspx.cs">
-      <DependentUpon>FrmPatientPrescriptionSearch.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FrmPatientPrescriptionSearch.aspx.designer.cs">
-      <DependentUpon>FrmPatientPrescriptionSearch.aspx</DependentUpon>
     </Compile>
     <Compile Include="FrmPhysician.aspx.cs">
       <DependentUpon>FrmPhysician.aspx</DependentUpon>

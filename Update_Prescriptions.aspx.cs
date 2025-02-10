@@ -19,7 +19,6 @@ namespace WebApplication1
                 gvPrescriptions.DataBind();
                 gvRefillInfo.DataSource = null;
                 gvRefillInfo.DataBind();
-<<<<<<< HEAD
             }
         }
 
@@ -117,7 +116,6 @@ namespace WebApplication1
             }
 
             
-=======
                 LoadPrescriptions();
                 LoadRefillInfo();
             }
@@ -255,7 +253,6 @@ namespace WebApplication1
                 return;
             }
 
->>>>>>> update message
             if (string.IsNullOrWhiteSpace(txtRefillDate.Text))
             {
                 lblMessage2.Text = "Error: Please enter the refill date.";
@@ -263,7 +260,6 @@ namespace WebApplication1
                 return;
             }
 
-<<<<<<< HEAD
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("UPDATE Prescriptions SET Refillsleft = @RefillsLeft WHERE PrescriptionID = @PrescriptionID", con);
@@ -306,7 +302,6 @@ namespace WebApplication1
             
             LoadRefillInfo(txtPrescriptionID.Text);
         }
-=======
             if (string.IsNullOrWhiteSpace(txtRefillCount.Text))
             {
                 lblMessage2.Text = "Error: Please enter the number of refills left.";
@@ -353,13 +348,11 @@ namespace WebApplication1
 
 
 
->>>>>>> update message
 
 
 
         protected void btnDelete_Click(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 SqlCommand cmd = new SqlCommand("DELETE FROM Prescriptions WHERE PrescriptionID = @PrescriptionID", con);
@@ -389,7 +382,6 @@ namespace WebApplication1
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 lblMessage.Text = string.Empty;
-=======
             if (string.IsNullOrWhiteSpace(txtPrescriptionID.Text))
             {
                 lblMessage.Text = "Error: No prescription selected!";
@@ -444,28 +436,23 @@ namespace WebApplication1
             {
                 Class obj = new Class();
                 DataTable dt = obj.SearchPrescriptions(searchTerm);
->>>>>>> update message
 
                 if (dt.Rows.Count > 0)
                 {
                     gvPrescriptions.DataSource = dt;
                     gvPrescriptions.DataBind();
-<<<<<<< HEAD
 
                     
                     if (dt.Rows.Count == 1)
                     {
                         txtPrescriptionID.Text = dt.Rows[0]["PrescriptionID"].ToString();
                     }
-=======
                     lblMessage.Text = ""; // Clear error message
->>>>>>> update message
                 }
                 else
                 {
                     gvPrescriptions.DataSource = null;
                     gvPrescriptions.DataBind();
-<<<<<<< HEAD
                     lblMessage.Text = "No Prescription Info was found.";
                 }
             }
@@ -491,7 +478,6 @@ namespace WebApplication1
                     gvRefillInfo.DataBind();
                     lblMessage2.Text = "No Refill Info was found.";
                 }
-=======
                     lblMessage.Text = "No matching prescriptions found.";
                     lblMessage.ForeColor = System.Drawing.Color.Red;
                 }
@@ -500,16 +486,9 @@ namespace WebApplication1
             {
                 lblMessage.Text = "Error searching for prescriptions: " + ex.Message;
                 lblMessage.ForeColor = System.Drawing.Color.Red;
->>>>>>> update message
             }
         }
 
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> update message
         protected void txtPatientSearch_TextChanged(object sender, EventArgs e)
         {
 
@@ -521,7 +500,6 @@ namespace WebApplication1
         }
         protected void btnSearch_Click2(object sender, EventArgs e)
         {
-<<<<<<< HEAD
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 string query = "SELECT * FROM Refills";
@@ -552,9 +530,6 @@ namespace WebApplication1
                 }
             }
         }
-
-
-=======
             string searchTerm = txtRXsearch.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(searchTerm))
@@ -592,7 +567,6 @@ namespace WebApplication1
 
 
 
->>>>>>> update message
         protected void chkPending_CheckedChanged(object sender, EventArgs e)
         {
             if (chkPending.Checked)
@@ -619,11 +593,8 @@ namespace WebApplication1
             }
         }
 
-<<<<<<< HEAD
     }
-}
-=======
-        protected void btnAddPrescription_Click(object sender, EventArgs e)
+}        protected void btnAddPrescription_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtPatientID.Text) || string.IsNullOrWhiteSpace(txtPhysicianID.Text) ||
                 string.IsNullOrWhiteSpace(txtMedicine.Text) || string.IsNullOrWhiteSpace(txtDosage.Text) ||
@@ -671,5 +642,3 @@ namespace WebApplication1
     }
 
 }
-
->>>>>>> update message
