@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace WebApplication1
 {
-    public partial class View_Patients_Perscriptions : System.Web.UI.Page
+    public partial class Update_Perscriptions : System.Web.UI.Page
     {
         string connectionString = ConfigurationManager.ConnectionStrings["ConnString"].ConnectionString;
 
@@ -26,8 +26,6 @@ namespace WebApplication1
                 LoadRefillInfo();
             }
         }
-
-
 
 
         private void LoadPrescriptions()
@@ -84,8 +82,6 @@ namespace WebApplication1
         }
 
 
-
-
         protected void gvPrescriptions_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (gvPrescriptions.SelectedRow != null)
@@ -99,15 +95,11 @@ namespace WebApplication1
                 btnUpdate.Enabled = true;
                 btnDelete.Enabled = true;
 
-            // Load refill info
-            LoadRefillInfo(txtPrescriptionID.Text);
+                // Load refill info
+                Class obj = new Class();
+obj.LoadRefills(txtPrescriptionID.Text);
             }
         }
-
-        protected void btnUpdate_Click(object sender, EventArgs e)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
 
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -152,13 +144,6 @@ namespace WebApplication1
             }
         }
 
-            
-            LoadPrescriptions();
-
-            
-            btnUpdate.Enabled = false;
-            btnDelete.Enabled = false;
-        }
 
         // Helper Function to Show Messages
         private void ShowMessage(Label lbl, string message, Color color)
@@ -267,20 +252,13 @@ namespace WebApplication1
                 lblMessage2.ForeColor = System.Drawing.Color.Red;
                 lblMessage2.Visible = true;
             }
-        }
 
             lblMessage2.Text = "Refill updated successfully.";
             lblMessage2.ForeColor = System.Drawing.Color.Green;
 
-
-            LoadRefillInfo(txtPrescriptionID.Text);
+            Class obj2 = new Class();
+            obj2.LoadRefills(txtPrescriptionID.Text);
         }
-
-
-
-
-
-
 
 
         protected void btnDelete_Click(object sender, EventArgs e)
@@ -355,7 +333,6 @@ namespace WebApplication1
                     gvPrescriptions.DataSource = dt;
                     gvPrescriptions.DataBind();
                     lblMessage.Text = ""; // Clear error message
-                }
                 }
                 else
                 {

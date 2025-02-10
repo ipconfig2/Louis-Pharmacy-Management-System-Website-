@@ -359,113 +359,68 @@ namespace WebApplication1
         }
 
 
-        public void AddPrescription(string patientID, string physicianID, string medName, string dosage, string intMethod, int refillsLeft)
+        public bool AddPrescription(string patientID, string physicianID, string medName, string dosage, string intMethod, int refillsLeft, DateTime initialRefillDate)
         {
-            bool IsAllLetters(string input)
+            using (SqlConnection con = new SqlConnection(connString))
             {
-                foreach (char c in input)
+                using (SqlCommand cmd = new SqlCommand("AddPrescription", con))
                 {
-                    if (!char.IsLetter(c))
-                    {
-                        return false;
-                    }
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PatientID", patientID);
+                    cmd.Parameters.AddWithValue("@PhysicianID", physicianID);
+                    cmd.Parameters.AddWithValue("@MedName", medName);
+                    cmd.Parameters.AddWithValue("@Dosage", dosage);
+                    cmd.Parameters.AddWithValue("@IntMethod", intMethod);
+                    cmd.Parameters.AddWithValue("@RefillsLeft", refillsLeft);
+                    cmd.Parameters.AddWithValue("@InitialRefillDate", initialRefillDate);
+                    con.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected > 0; // Return true if the insert was successful
                 }
-                return true;
             }
+        }
 
-            bool IsLettersDigitsOrSpaces(string input)
-            {
-                foreach (char c in input)
-                {
-                    if (!char.IsLetterOrDigit(c) && !char.IsWhiteSpace(c))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
+        public DataSet LoadRefills(string prescriptionId)
+        {
             try
             {
+
                 myConn.Open();
 
+                // Clear parameters and set up command
                 cmdString.Parameters.Clear();
                 cmdString.Connection = myConn;
-                cmdString.CommandType = CommandType.StoredProcedure;
-                cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "AddPrescription";
+                cmdString.CommandType = CommandType.Text;
+                cmdString.CommandText = @"
+                SELECT R.*, P.RefillsLeft
+                FROM Refills AS R
+                INNER JOIN Prescriptions AS P ON R.PrescriptionID = P.PrescriptionID
+                WHERE R.PrescriptionID = @PrescriptionID";
 
-                if (!string.IsNullOrEmpty(patientID))
-                {
-                    cmdString.Parameters.Add("@patientID", SqlDbType.VarChar, 50).Value = patientID;
-                }
-                else
-                {
-                    throw new ArgumentException("Patient ID cannot be empty.");
-                }
+                // Add prescription ID parameter
+                cmdString.Parameters.AddWithValue("@PrescriptionID", prescriptionId);
 
-                if (!string.IsNullOrEmpty(physicianID))
-                {
-                    cmdString.Parameters.Add("@PhysicianID", SqlDbType.VarChar, 50).Value = physicianID;
-                }
-                else
-                {
-                    throw new ArgumentException("Physician ID cannot be empty.");
-                }
+                // Set up adapter and dataset
+                SqlDataAdapter adapter = new SqlDataAdapter(cmdString);
+                DataSet dataSet = new DataSet();
 
-                if (IsAllLetters(medName))
-                {
-                    cmdString.Parameters.Add("@MedName", SqlDbType.VarChar, 50).Value = medName;
-                }
-                else
-                {
-                    throw new ArgumentException("Medication name must contain only letters.");
-                }
+                // Fill the dataset
+                adapter.Fill(dataSet);
 
-                if (IsLettersDigitsOrSpaces(dosage))
-                {
-                    cmdString.Parameters.Add("@dosage", SqlDbType.VarChar, 50).Value = dosage;
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid dosage format.");
-                }
-
-                if (IsLettersDigitsOrSpaces(intMethod))
-                {
-                    cmdString.Parameters.Add("@intMethod", SqlDbType.VarChar, 50).Value = intMethod;
-                }
-                else
-                {
-                    throw new ArgumentException("Invalid format for intake method (use only letters).");
-                }
-
-                if (refillsLeft >= 0)
-                {
-                    cmdString.Parameters.Add("@refillsleft", SqlDbType.Int).Value = refillsLeft;
-                }
-                else
-                {
-                    throw new ArgumentException("Refills left cannot be negative.");
-                }
-
-
-                cmdString.ExecuteNonQuery();
+                return dataSet;
             }
-
             catch (Exception ex)
-
             {
-                throw new ArgumentException(ex.Message);
+                string message = "An error occurred. Make sure you enter a valid prescription ID. Dev notes: " + ex.Message;
 
+                if (HttpContext.Current.Handler is Page page)
+                {
+                    page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + message + "');", true);
+                }
+                return null;
             }
-
             finally
-
-            {
-
-                myConn.Close();
-
-            }
+            { myConn.Close(); }
         }
 
 
@@ -827,108 +782,22 @@ namespace WebApplication1
         }
 
 
-        public void UpdatePrescription(string prescriptionID, string patientID, string physicianID, string medName, string dosage, string intMethod, int refillsLeft)
+        public bool UpdatePrescription(string prescriptionID, string medName, string dosage, string intMethod, int? refillsLeft)
         {
-            bool IsAllLetters(string input)
+            using (SqlConnection con = new SqlConnection(connString))
             {
-                foreach (char c in input)
+                using (SqlCommand cmd = new SqlCommand("UpdatePrescription", con))
                 {
-                    if (!char.IsLetter(c))
-                    {
-                        return false;
-                    }
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PrescriptionID", prescriptionID);
+                    cmd.Parameters.AddWithValue("@MedName", string.IsNullOrWhiteSpace(medName) ? (object)DBNull.Value : medName);
+                    cmd.Parameters.AddWithValue("@Dosage", string.IsNullOrWhiteSpace(dosage) ? (object)DBNull.Value : dosage);
+                    cmd.Parameters.AddWithValue("@IntMethod", string.IsNullOrWhiteSpace(intMethod) ? (object)DBNull.Value : intMethod);
+                    cmd.Parameters.AddWithValue("@RefillsLeft", refillsLeft.HasValue ? (object)refillsLeft.Value : DBNull.Value);
+                    con.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected > 0; // Returns true if the update was successful
                 }
-                return true;
-            }
-
-            bool IsLettersDigitsOrSpaces(string input)
-            {
-                foreach (char c in input)
-                {
-                    if (!char.IsLetterOrDigit(c) && !char.IsWhiteSpace(c))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            try
-            {
-                // Open connection
-                myConn.Open();
-
-                // Clear any parameters
-                cmdString.Parameters.Clear();
-
-                // Command configuration
-                cmdString.Connection = myConn;
-                cmdString.CommandType = CommandType.StoredProcedure;
-                cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "UpdatePrescription";
-
-                // Define input parameters if not null or empty
-                if (!string.IsNullOrEmpty(prescriptionID))
-                {
-                    cmdString.Parameters.Add("@PrescriptionID", SqlDbType.VarChar, 50).Value = prescriptionID;
-                }
-                else
-                {
-                    throw new ArgumentException("Prescription ID cannot be empty.");
-                }
-
-                if (!string.IsNullOrEmpty(patientID))
-                {
-                    cmdString.Parameters.Add("@PatientID", SqlDbType.VarChar, 50).Value = patientID;
-                }
-
-                if (!string.IsNullOrEmpty(physicianID))
-                {
-                    cmdString.Parameters.Add("@PhysicianID", SqlDbType.VarChar, 20).Value = physicianID;
-                }
-
-                if (IsAllLetters(medName) && !string.IsNullOrEmpty(medName))
-                {
-                    cmdString.Parameters.Add("@MedName", SqlDbType.VarChar, 50).Value = medName;
-                }
-                else if (!string.IsNullOrEmpty(medName))
-                {
-                    throw new ArgumentException("Medication name must contain only letters.");
-                }
-
-                if (IsLettersDigitsOrSpaces(dosage) && !string.IsNullOrEmpty(dosage))
-                {
-                    cmdString.Parameters.Add("@Dosage", SqlDbType.VarChar, 50).Value = dosage;
-                }
-                else if (!string.IsNullOrEmpty(dosage))
-                {
-                    throw new ArgumentException("Invalid dosage format.");
-                }
-
-                if (IsLettersDigitsOrSpaces(intMethod) && !string.IsNullOrEmpty(intMethod))
-                {
-                    cmdString.Parameters.Add("@IntMethod", SqlDbType.VarChar, 50).Value = intMethod;
-                }
-                else if (!string.IsNullOrEmpty(intMethod))
-                {
-                    throw new ArgumentException("Invalid format for intake method (use only letters).");
-                }
-
-                if (refillsLeft >= 0)
-                {
-                    cmdString.Parameters.Add("@RefillsLeft", SqlDbType.Int).Value = refillsLeft;
-                }
-
-                cmdString.ExecuteNonQuery();
-
-            }
-            catch (Exception ex)
-            {
-                throw new ArgumentException(ex.Message);
-            }
-            finally
-            {
-                myConn.Close();
             }
         }
 
@@ -992,7 +861,28 @@ namespace WebApplication1
             }
         }
 
+        public bool DoesPrescriptionExist(string medicine, string patientID)
+        {
+            bool exists = false;
 
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string query = "SELECT COUNT(*) FROM Prescriptions WHERE MedName = @MedName AND PatientID = @PatientID";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@MedName", medicine);
+                    cmd.Parameters.AddWithValue("@PatientID", patientID);
+
+                    conn.Open();
+                    int count = (int)cmd.ExecuteScalar();  // Returns the number of matching records
+
+                    exists = count > 0; // If count > 0, prescription exists
+                }
+            }
+
+            return exists;
+        }
         public DataSet SearchPhysician(string searchTerm)
         {
             try
@@ -1050,50 +940,6 @@ namespace WebApplication1
             {
                 myConn.Close();
             }
-        }
-
-
-        public DataSet LoadRefills(string prescriptionId)
-        {
-            try
-            {
-
-                myConn.Open();
-
-                // Clear parameters and set up command
-                cmdString.Parameters.Clear();
-                cmdString.Connection = myConn;
-                cmdString.CommandType = CommandType.Text;
-                cmdString.CommandText = @"
-                SELECT R.*, P.RefillsLeft
-                FROM Refills AS R
-                INNER JOIN Prescriptions AS P ON R.PrescriptionID = P.PrescriptionID
-                WHERE R.PrescriptionID = @PrescriptionID";
-
-                // Add prescription ID parameter
-                cmdString.Parameters.AddWithValue("@PrescriptionID", prescriptionId);
-
-                // Set up adapter and dataset
-                SqlDataAdapter adapter = new SqlDataAdapter(cmdString);
-                DataSet dataSet = new DataSet();
-
-                // Fill the dataset
-                adapter.Fill(dataSet);
-
-                return dataSet;
-            }
-            catch (Exception ex)
-            {
-                string message = "An error occurred. Make sure you enter a valid prescription ID. Dev notes: " + ex.Message;
-
-                if (HttpContext.Current.Handler is Page page)
-                {
-                    page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + message + "');", true);
-                }
-                return null;
-            }
-            finally
-            { myConn.Close(); }
         }
 
 
@@ -1213,36 +1059,55 @@ namespace WebApplication1
             }
         }
 
-        public void DeletePresc(string prescID)
+        public bool DeletePresc(string prescriptionID)
         {
-            try
+            using (SqlConnection con = new SqlConnection(connString))
             {
-                // open connection
-                myConn.Open();
-                //clear any parameters
-                cmdString.Parameters.Clear();
-                // command
-                cmdString.Connection = myConn;
-                cmdString.CommandType = CommandType.StoredProcedure;
-                cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "DeletePresc";
-                // Define input parameter
-                cmdString.Parameters.Add("@PrescID", SqlDbType.VarChar, 7).Value = prescID;
-                // adapter and dataset
-                SqlDataAdapter aAdapter = new SqlDataAdapter();
-                cmdString.ExecuteNonQuery();
-
+                using (SqlCommand cmd = new SqlCommand("DeletePrescription", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@PrescriptionID", SqlDbType.VarChar, 7).Value = prescriptionID;
+                    con.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery(); // Returns the number of rows affected
+                    return rowsAffected > 0; // Return true if a row was deleted, otherwise false
+                }
             }
-            catch (Exception ex)
-            {
-                throw new ArgumentException(ex.Message);
-            }
-            finally
-            {
-                myConn.Close();
-            }
-
         }
+
+        public DataTable SearchRefills(string searchTerm)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SearchRefills", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    con.Open();
+                    da.Fill(dt);
+                }
+            }
+            return dt;
+        }
+
+        public DataTable SearchPrescriptions(string searchTerm)
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SearchPrescriptions", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@SearchTerm", searchTerm);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    con.Open();
+                    da.Fill(dt);
+                }
+            }
+            return dt;
+        }
+
         public void DeleteRefill(string RXNO, string PrescID)
         {
             try
@@ -1275,46 +1140,25 @@ namespace WebApplication1
             }
 
         }
-        public void UpdateRefill(string RXNO, string Date, string Status)
+        public bool UpdateRefill(string rxNo, string prescriptionID, string refillDate, string status, int refillsLeft)
         {
-            try
-
+            using (SqlConnection con = new SqlConnection(connString))
             {
-                // open connection
-                myConn.Open();
-                //clear any parameters
-                cmdString.Parameters.Clear();
-                // command
-                cmdString.Connection = myConn;
-                cmdString.CommandType = CommandType.StoredProcedure;
-                cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "UpdateRefill";
-                // Define input parameter
-                cmdString.Parameters.Add("@RXNO", SqlDbType.VarChar, 20).Value = RXNO;
-                cmdString.Parameters.Add("@Date", SqlDbType.DateTime).Value = Date;
-                if (!string.IsNullOrEmpty(Status) && (Status == "COMPLETED" || Status == "PENDING"))
+                using (SqlCommand cmd = new SqlCommand("UpdateRefill", con))
                 {
-                    cmdString.Parameters.Add("@Status", SqlDbType.VarChar, 20).Value = Status;
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RXNO", rxNo);
+                    cmd.Parameters.AddWithValue("@PrescriptionID", prescriptionID);
+                    cmd.Parameters.AddWithValue("@RefillDate", DateTime.Parse(refillDate));
+                    cmd.Parameters.AddWithValue("@Status", string.IsNullOrEmpty(status) ? DBNull.Value : (object)status);
+                    cmd.Parameters.AddWithValue("@RefillsLeft", refillsLeft);
+                    con.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    return rowsAffected > 0; // Return true if the update is successful
                 }
-                else if (!string.IsNullOrEmpty(Status))
-                {
-                    throw new ArgumentException("Gender must be 'Male' or 'Female'.");
-                }
-                // adapter and dataset
-                SqlDataAdapter aAdapter = new SqlDataAdapter();
-                cmdString.ExecuteNonQuery();
-
             }
-            catch (Exception ex)
-            {
-                throw new ArgumentException(ex.Message);
-            }
-            finally
-            {
-                myConn.Close();
-            }
-
         }
+
         public DataSet RXByID(string rxno)
 
         {
@@ -1353,6 +1197,41 @@ namespace WebApplication1
                 myConn.Close();
             }
         }
+
+
+        public DataTable GetAllPrescriptions()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetAllPrescriptions", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    con.Open();
+                    da.Fill(dt);
+                }
+            }
+            return dt;
+        }
+
+        public DataTable GetAllRefills()
+        {
+            DataTable dt = new DataTable();
+            using (SqlConnection con = new SqlConnection(connString))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetAllRefills", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    con.Open();
+                    da.Fill(dt);
+                }
+            }
+            return dt;
+        }
+
+
 
 
     }
