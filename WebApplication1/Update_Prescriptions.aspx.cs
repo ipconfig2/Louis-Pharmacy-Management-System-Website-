@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace WebApplication1
 {
@@ -13,221 +14,56 @@ namespace WebApplication1
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.UnobtrusiveValidationMode = System.Web.UI.UnobtrusiveValidationMode.None;
+
             if (!IsPostBack)
             {
                 gvPrescriptions.DataSource = null;
                 gvPrescriptions.DataBind();
                 gvRefillInfo.DataSource = null;
                 gvRefillInfo.DataBind();
+                LoadPrescriptions();
+                LoadRefillInfo();
             }
         }
+
+
+
 
         private void LoadPrescriptions()
         {
-
-        }
-
-        private void LoadRefillInfo(string prescriptionId)
-        {
-
-        }
-
-        protected void gvPrescriptions_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GridViewRow row = gvPrescriptions.SelectedRow;
-            txtPrescriptionID.Text = row.Cells[0].Text;
-            txtMedicine.Text = row.Cells[1].Text;
-            txtDosage.Text = row.Cells[2].Text;
-            txtIntMethod.Text = row.Cells[3].Text;
-
-            btnUpdate.Enabled = true;
-            btnDelete.Enabled = true;
-
-            // Load refill info
-            LoadRefillInfo(txtPrescriptionID.Text);
-        }
-
-        protected void btnUpdate_Click(object sender, EventArgs e)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            try
             {
-
-                string query = "UPDATE Prescriptions SET ";
-                List<string> updates = new List<string>();
-                SqlCommand cmd = new SqlCommand();
-
-
-                if (!string.IsNullOrWhiteSpace(txtMedicine.Text))
-                {
-                    updates.Add("MedName = @MedName");
-                    cmd.Parameters.AddWithValue("@MedName", txtMedicine.Text);
-                }
-
-                if (!string.IsNullOrWhiteSpace(txtDosage.Text))
-                {
-                    updates.Add("Dosage = @Dosage");
-                    cmd.Parameters.AddWithValue("@Dosage", txtDosage.Text);
-                }
-
-                if (!string.IsNullOrWhiteSpace(txtIntMethod.Text))
-                {
-                    updates.Add("IntMethod = @IntMethod");
-                    cmd.Parameters.AddWithValue("@IntMethod", txtIntMethod.Text);
-                }
-
-
-                if (updates.Count > 0)
-                {
-                    query += string.Join(", ", updates);
-                    query += " WHERE PrescriptionID = @PrescriptionID";
-
-                    cmd.CommandText = query;
-                    cmd.Connection = con;
-                    cmd.Parameters.AddWithValue("@PrescriptionID", txtPrescriptionID.Text);
-
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-
-                    lblMessage.Text = "Prescription updated successfully.";
-                }
-                else
-                {
-                    lblMessage.Text = "No changes to update.";
-                }
-            }
-
-
-            LoadPrescriptions();
-
-
-            btnUpdate.Enabled = false;
-            btnDelete.Enabled = false;
-        }
-
-
-        protected void btnUpdateRefill_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtPrescriptionID.Text))
-            {
-                lblMessage2.Text = "Error: No prescription selected!";
-                lblMessage2.ForeColor = System.Drawing.Color.Red;
-                return;
-            }
-
-
-            if (string.IsNullOrWhiteSpace(txtRefillDate.Text))
-            {
-                lblMessage2.Text = "Error: Please enter the refill date.";
-                lblMessage2.ForeColor = System.Drawing.Color.Red;
-                return;
-            }
-
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand("UPDATE Prescriptions SET Refillsleft = @RefillsLeft WHERE PrescriptionID = @PrescriptionID", con);
-                cmd.Parameters.AddWithValue("@RefillsLeft", txtRefillCount.Text);
-                cmd.Parameters.AddWithValue("@PrescriptionID", txtPrescriptionID.Text);
-
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand("UPDATE Refills SET RefillDate = @RefillDate, Status = @Status WHERE PrescriptionID = @PrescriptionID", con);
-                cmd.Parameters.AddWithValue("@RefillDate", DateTime.Parse(txtRefillDate.Text));
-                cmd.Parameters.AddWithValue("@PrescriptionID", txtPrescriptionID.Text);
-
-
-                if (chkPending.Checked)
-                {
-                    cmd.Parameters.AddWithValue("@Status", "Pending");
-                }
-                else if (chkCompleted.Checked)
-                {
-                    cmd.Parameters.AddWithValue("@Status", "Completed");
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@Status", DBNull.Value); // no checkbox is checked
-                }
-
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-
-            lblMessage2.Text = "Refill updated successfully.";
-            lblMessage2.ForeColor = System.Drawing.Color.Green;
-
-
-            LoadRefillInfo(txtPrescriptionID.Text);
-        }
-
-
-
-        protected void btnDelete_Click(object sender, EventArgs e)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand("DELETE FROM Prescriptions WHERE PrescriptionID = @PrescriptionID", con);
-                cmd.Parameters.AddWithValue("@PrescriptionID", txtPrescriptionID.Text);
-
-                con.Open();
-                cmd.ExecuteNonQuery();
-                con.Close();
-            }
-
-
-            LoadPrescriptions();
-
-
-            btnUpdate.Enabled = false;
-            btnDelete.Enabled = false;
-        }
-
-        protected void btnSearch_Click(object sender, EventArgs e)
-        {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Prescriptions WHERE PrescriptionID = @PrescriptionID OR @PrescriptionID = ''", con);
-                cmd.Parameters.AddWithValue("@PrescriptionID", txtPatSearch.Text.Trim());
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                lblMessage.Text = string.Empty;
+                Class obj = new Class();
+                DataTable dt = obj.GetAllPrescriptions(); 
 
                 if (dt.Rows.Count > 0)
                 {
                     gvPrescriptions.DataSource = dt;
                     gvPrescriptions.DataBind();
-
-
-                    if (dt.Rows.Count == 1)
-                    {
-                        txtPrescriptionID.Text = dt.Rows[0]["PrescriptionID"].ToString();
-                    }
                 }
                 else
                 {
                     gvPrescriptions.DataSource = null;
                     gvPrescriptions.DataBind();
-                    lblMessage.Text = "No Prescription Info was found.";
                 }
             }
-
-            using (SqlConnection con = new SqlConnection(connectionString))
+            catch (Exception ex)
             {
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Refills WHERE PrescriptionID = @PrescriptionID OR @PrescriptionID = ''", con);
-                cmd.Parameters.AddWithValue("@PrescriptionID", txtPatSearch.Text.Trim());
+                lblMessage.Text = "Error loading prescriptions: " + ex.Message;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
+        }
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                lblMessage2.Text = string.Empty;
+
+
+
+        private void LoadRefillInfo()
+        {
+            try
+            {
+                Class obj = new Class();
+                DataTable dt = obj.GetAllRefills(); // Fetch all refills
 
                 if (dt.Rows.Count > 0)
                 {
@@ -238,10 +74,338 @@ namespace WebApplication1
                 {
                     gvRefillInfo.DataSource = null;
                     gvRefillInfo.DataBind();
-                    lblMessage2.Text = "No Refill Info was found.";
                 }
             }
+            catch (Exception ex)
+            {
+                lblMessage2.Text = "Error loading refills: " + ex.Message;
+                lblMessage2.ForeColor = System.Drawing.Color.Red;
+            }
         }
+
+
+
+
+        protected void gvPrescriptions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (gvPrescriptions.SelectedRow != null)
+            {
+                GridViewRow row = gvPrescriptions.SelectedRow;
+                txtPrescriptionID.Text = row.Cells[1].Text; // Adjust index based on your columns
+                txtMedicine.Text = row.Cells[2].Text;
+                txtDosage.Text = row.Cells[3].Text;
+                txtIntMethod.Text = row.Cells[4].Text;
+
+                btnUpdate.Enabled = true;
+                btnDelete.Enabled = true;
+
+            // Load refill info
+            LoadRefillInfo(txtPrescriptionID.Text);
+            }
+        }
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+
+        protected void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtMedicine.Text) || txtMedicine.Text.Length > 50)
+            {
+                ShowMessage(lblMessage, "Error: Medicine Name is required and must be less than 50 characters!", Color.Red);
+                return;
+            }
+
+            Class obj = new Class();
+
+            // Check if the prescription already exists
+            if (obj.DoesPrescriptionExist(txtMedicine.Text.Trim(), txtPatientID.Text.Trim()))
+            {
+                ShowMessage(lblMessage, "Error: Prescription already exists for this patient!", Color.Red);
+                return;
+            }
+
+            try
+            {
+                bool isUpdated = obj.UpdatePrescription(
+                    txtPrescriptionID.Text.Trim(),
+                    txtMedicine.Text.Trim(),
+                    txtDosage.Text.Trim(),
+                    txtIntMethod.Text.Trim(),
+                    int.Parse(txtRefillCount.Text.Trim())
+                );
+
+                if (isUpdated)
+                {
+                    ShowMessage(lblMessage, "Prescription updated successfully!", Color.Green);
+                    LoadPrescriptions();
+                }
+                else
+                {
+                    ShowMessage(lblMessage, "Error updating prescription.", Color.Red);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowMessage(lblMessage, "Unexpected error: " + ex.Message, Color.Red);
+            }
+        }
+
+            
+            LoadPrescriptions();
+
+            
+            btnUpdate.Enabled = false;
+            btnDelete.Enabled = false;
+        }
+
+        // Helper Function to Show Messages
+        private void ShowMessage(Label lbl, string message, Color color)
+        {
+            lbl.Text = message;
+            lbl.ForeColor = color;
+        }
+
+        //protected void btnUpdate_Click(object sender, EventArgs e)
+        //{
+        //    if (string.IsNullOrWhiteSpace(txtPrescriptionID.Text))
+        //    {
+        //        ShowMessage(lblMessage, "Error: No prescription selected!", Color.Red);
+        //        return;
+        //    }
+
+        //try
+        //    {
+        //        string prescriptionID = txtPrescriptionID.Text.Trim();
+        //        string medName = txtMedicine.Text.Trim();
+        //        string dosage = txtDosage.Text.Trim();
+        //        string intMethod = txtIntMethod.Text.Trim();
+        //        int? refillsLeft = string.IsNullOrWhiteSpace(txtRefillCount.Text) ? (int?)null : int.Parse(txtRefillCount.Text.Trim());
+
+        //        Class obj = new Class();
+        //        bool isUpdated = obj.UpdatePrescription(prescriptionID, medName, dosage, intMethod, refillsLeft);
+
+        //        if (isUpdated)
+        //        {
+        //            ShowMessage(lblMessage, "Prescription updated successfully!", Color.Green);
+        //            LoadPrescriptions(); // Refresh prescription list
+        //        }
+        //        else
+        //        {
+        //            ShowMessage(lblMessage, "No changes made or prescription not found.", Color.Red);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ShowMessage(lblMessage, "Error updating prescription: " + ex.Message, Color.Red);
+        //    }
+        //}
+
+
+        //private void ShowMessage(Label lbl, string message, Color color)
+        //{
+        //    lbl.Text = message;
+        //    lbl.ForeColor = color;
+        //}
+
+
+
+        protected void btnUpdateRefill_Click(object sender, EventArgs e)
+        {
+            lblMessage2.Text = ""; // Clear previous messages
+            lblMessage2.Visible = false; // Hide the label unless an error occurs
+
+            if (string.IsNullOrWhiteSpace(txtRXsearch.Text) || string.IsNullOrWhiteSpace(txtPrescriptionID.Text))
+            {
+                lblMessage2.Text = "❌ Error: RX number and Prescription ID must be provided!";
+                lblMessage2.ForeColor = System.Drawing.Color.Red;
+                lblMessage2.Visible = true;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtRefillDate.Text) || string.IsNullOrWhiteSpace(txtRefillCount.Text))
+            {
+                lblMessage2.Text = "❌ Error: Please enter refill date and refill count!";
+                lblMessage2.ForeColor = System.Drawing.Color.Red;
+                lblMessage2.Visible = true;
+                return;
+            }
+
+            string status = chkPending.Checked ? "Pending" : chkCompleted.Checked ? "Completed" : "";
+
+            try
+            {
+                Class obj = new Class();
+                bool isUpdated = obj.UpdateRefill(
+                    txtRXsearch.Text.Trim(),
+                    txtPrescriptionID.Text.Trim(),
+                    txtRefillDate.Text.Trim(),
+                    status,
+                    int.Parse(txtRefillCount.Text.Trim()) // Convert to int
+                );
+
+                if (!isUpdated) // Show error message only if update fails
+                {
+                    lblMessage2.Text = "❌ Error: RX Number and Prescription ID do not match or update failed.";
+                    lblMessage2.ForeColor = System.Drawing.Color.Red;
+                    lblMessage2.Visible = true;
+                }
+                else
+                {
+                    lblMessage2.Text = " Success.";
+                    lblMessage2.ForeColor = System.Drawing.Color.Green;
+                    lblMessage2.Visible = true;
+                }
+
+                LoadRefillInfo();   // Refresh refill grid
+                LoadPrescriptions(); // Refresh prescription grid
+            }
+            catch (Exception ex)
+            {
+                lblMessage2.Text = $"⚠️ Error updating refill: {ex.Message}";
+                lblMessage2.ForeColor = System.Drawing.Color.Red;
+                lblMessage2.Visible = true;
+            }
+        }
+
+            lblMessage2.Text = "Refill updated successfully.";
+            lblMessage2.ForeColor = System.Drawing.Color.Green;
+
+
+            LoadRefillInfo(txtPrescriptionID.Text);
+        }
+
+
+
+
+
+
+
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtPrescriptionID.Text))
+            {
+                lblMessage.Text = "Error: No prescription selected!";
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                return;
+            }
+
+            string prescriptionID = txtPrescriptionID.Text.Trim();
+
+            try
+            {
+                Class obj = new Class();
+                bool isDeleted = obj.DeletePresc(prescriptionID);
+
+                if (isDeleted)
+                {
+                    lblMessage.Text = "Prescription deleted successfully.";
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    lblMessage.Text = "Prescription not found.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                }
+
+                LoadPrescriptions(); // Refresh prescriptions grid
+                LoadRefillInfo();    // Refresh refills grid
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error deleting prescription: " + ex.Message;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
+        }
+
+
+        protected void ValidateRefillCount(object source, ServerValidateEventArgs args)
+        {
+            if (int.TryParse(txtRefillCount.Text, out int value))
+            {
+                args.IsValid = value > 0;
+            }
+
+            else
+            {
+                args.IsValid = false;
+            }
+        }
+
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchTerm = txtPatSearch.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                ShowMessage(lblMessage, "Please enter a search term.", Color.Red);
+                return;
+            }
+
+            try
+            {
+                Class obj = new Class();
+                DataTable dt = obj.SearchPrescriptions(searchTerm);
+
+                if (dt.Rows.Count > 0)
+                {
+                    gvPrescriptions.DataSource = dt;
+                    gvPrescriptions.DataBind();
+                    lblMessage.Text = ""; // Clear error message
+                }
+                }
+                else
+                {
+                    gvPrescriptions.DataSource = null;
+                    gvPrescriptions.DataBind();
+                    ShowMessage(lblMessage, "No matching prescriptions found.", Color.Red);
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowMessage(lblMessage, "Error searching prescriptions: " + ex.Message, Color.Red);
+            }
+        }
+        //old search
+        //protected void btnSearch_Click(object sender, EventArgs e)
+        //{
+        //    string searchTerm = txtPatSearch.Text.Trim();
+
+        //    if (string.IsNullOrWhiteSpace(searchTerm))
+        //    {
+        //        lblMessage.Text = "Please enter a search term.";
+        //        lblMessage.ForeColor = System.Drawing.Color.Red;
+        //        return;
+        //    }
+
+        //    try
+        //    {
+        //        Class obj = new Class();
+        //        DataTable dt = obj.SearchPrescriptions(searchTerm);
+
+        //        if (dt.Rows.Count > 0)
+        //        {
+        //            gvPrescriptions.DataSource = dt;
+        //            gvPrescriptions.DataBind();
+        //            lblMessage.Text = ""; // Clear error message
+        //        }
+        //        else
+        //        {
+        //            gvPrescriptions.DataSource = null;
+        //            gvPrescriptions.DataBind();
+        //            lblMessage.Text = "No matching prescriptions found.";
+        //            lblMessage.ForeColor = System.Drawing.Color.Red;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        lblMessage.Text = "Error searching for prescriptions: " + ex.Message;
+        //        lblMessage.ForeColor = System.Drawing.Color.Red;
+        //    }
+        //}
 
 
 
@@ -257,36 +421,41 @@ namespace WebApplication1
         }
         protected void btnSearch_Click2(object sender, EventArgs e)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            string searchTerm = txtRXsearch.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                string query = "SELECT * FROM Refills";
-                SqlCommand cmd = new SqlCommand();
+                lblMessage2.Text = "Please enter an RX number or Prescription ID.";
+                lblMessage2.ForeColor = System.Drawing.Color.Red;
+                return;
+            }
 
-                if (!string.IsNullOrWhiteSpace(txtRXsearch.Text.Trim()))
+            try
+            {
+                Class obj = new Class();
+                DataTable dt = obj.SearchRefills(searchTerm);
+
+                if (dt.Rows.Count > 0)
                 {
-                    query += " WHERE RX_NO = @RX_NO";
-                    cmd.Parameters.AddWithValue("@RX_NO", txtRXsearch.Text.Trim());
+                    gvRefillInfo.DataSource = dt;
+                    gvRefillInfo.DataBind();
+                    lblMessage2.Text = ""; // Clear error message
                 }
-
-                cmd.CommandText = query;
-                cmd.Connection = con;
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                lblMessage2.Text = string.Empty;
-
-
-                gvRefillInfo.DataSource = dt;
-                gvRefillInfo.DataBind();
-
-
-                if (dt.Rows.Count == 0)
+                else
                 {
-                    lblMessage2.Text = "No Refill Info was found.";
+                    gvRefillInfo.DataSource = null;
+                    gvRefillInfo.DataBind();
+                    lblMessage2.Text = "No matching refills found.";
+                    lblMessage2.ForeColor = System.Drawing.Color.Red;
                 }
             }
+            catch (Exception ex)
+            {
+                lblMessage2.Text = "Error searching for refills: " + ex.Message;
+                lblMessage2.ForeColor = System.Drawing.Color.Red;
+            }
         }
+
 
 
         protected void chkPending_CheckedChanged(object sender, EventArgs e)
@@ -315,5 +484,52 @@ namespace WebApplication1
             }
         }
 
+        protected void btnAddPrescription_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtPatientID.Text) || string.IsNullOrWhiteSpace(txtPhysicianID.Text) ||
+                string.IsNullOrWhiteSpace(txtMedicine.Text) || string.IsNullOrWhiteSpace(txtDosage.Text) ||
+                string.IsNullOrWhiteSpace(txtIntMethod.Text) || string.IsNullOrWhiteSpace(txtRefillCount.Text) ||
+                string.IsNullOrWhiteSpace(txtRefillDate.Text))
+            {
+                lblMessage.Text = "Error: Please fill in all fields; Medicine, Dose, Intake, PhyID, PatID, and Refill count and date";
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                return;
+            }
+
+            try
+            {
+                string patientID = txtPatientID.Text.Trim();
+                string physicianID = txtPhysicianID.Text.Trim();
+                string medName = txtMedicine.Text.Trim();
+                string dosage = txtDosage.Text.Trim();
+                string intMethod = txtIntMethod.Text.Trim();
+                int refillsLeft = int.Parse(txtRefillCount.Text.Trim());
+                DateTime initialRefillDate = DateTime.Parse(txtRefillDate.Text.Trim());
+
+                Class obj = new Class();
+                bool isAdded = obj.AddPrescription(patientID, physicianID, medName, dosage, intMethod, refillsLeft, initialRefillDate);
+
+                if (isAdded)
+                {
+                    lblMessage.Text = "Prescription and first refill added successfully.";
+                    lblMessage.ForeColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    lblMessage.Text = "Error adding prescription.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
+                }
+
+                LoadPrescriptions(); // Refresh prescription grid
+                LoadRefillInfo();    // Refresh refill grid
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = "Error adding prescription: " + ex.Message;
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+            }
+        }
     }
+
 }
+

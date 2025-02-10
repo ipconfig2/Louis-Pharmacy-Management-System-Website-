@@ -141,6 +141,51 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox txtIntMethod;
 
         /// <summary>
+        /// lblPatientID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPatientID;
+
+        /// <summary>
+        /// txtPatientID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPatientID;
+
+        /// <summary>
+        /// lblPhysicianID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPhysicianID;
+
+        /// <summary>
+        /// txtPhysicianID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPhysicianID;
+
+        /// <summary>
+        /// btnAddPrescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddPrescription;
+
+        /// <summary>
         /// btnDelete control.
         /// </summary>
         /// <remarks>
@@ -213,13 +258,13 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.GridView gvRefillInfo;
 
         /// <summary>
-        /// lblRefillCount control.
+        /// RefilCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRefillCount;
+        protected global::System.Web.UI.WebControls.Label RefilCount;
 
         /// <summary>
         /// txtRefillCount control.
@@ -229,6 +274,15 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtRefillCount;
+
+        /// <summary>
+        /// cvRefillCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator cvRefillCount;
 
         /// <summary>
         /// lblRefillDate control.
