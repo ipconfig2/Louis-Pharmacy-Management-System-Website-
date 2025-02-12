@@ -18,17 +18,19 @@
     <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label>
     <br /><br />
 
-    <asp:GridView ID="gvPrescriptions" runat="server" AutoGenerateColumns="False" 
-        AutoGenerateSelectButton="True" OnSelectedIndexChanged="gvPrescriptions_SelectedIndexChanged"
-        CssClass="table table-striped">
-        <Columns>
-            <asp:BoundField DataField="PrescriptionID" HeaderText="Prescription ID" />
-            <asp:BoundField DataField="MedName" HeaderText="Medicine Name" />
-            <asp:BoundField DataField="Dosage" HeaderText="Dosage" />
-            <asp:BoundField DataField="IntMethod" HeaderText="Intake Method" />
-            <asp:BoundField DataField="RefillsLeft" HeaderText="Refills Left" />
-        </Columns>
-    </asp:GridView>
+<asp:GridView ID="gvPrescriptions" runat="server" AutoGenerateColumns="False" 
+    AutoGenerateSelectButton="True" OnSelectedIndexChanged="gvPrescriptions_SelectedIndexChanged"
+    CssClass="table table-striped">
+    <Columns>
+        <asp:BoundField DataField="PrescriptionID" HeaderText="Prescription ID" />
+        <asp:BoundField DataField="PatientID" HeaderText="Patient ID" /> 
+        <asp:BoundField DataField="PhysicianID" HeaderText="Physician ID" /> 
+        <asp:BoundField DataField="MedName" HeaderText="Medicine Name" />
+        <asp:BoundField DataField="Dosage" HeaderText="Dosage" />
+        <asp:BoundField DataField="IntMethod" HeaderText="Intake Method" />
+        <asp:BoundField DataField="RefillsLeft" HeaderText="Refills Left" />
+    </Columns>
+</asp:GridView>
 
     <br />
 
@@ -57,6 +59,7 @@
     <asp:Button ID="btnDelete" runat="server" Text="Delete Prescription" OnClick="btnDelete_Click" Enabled="true" />
     <asp:Button ID="btnUpdate" runat="server" Text="Update Prescription"
         OnClick="btnUpdate_Click" OnClientClick="return validateForm();" />
+    <asp:Button ID="btnClear" runat="server" Text="Clear" OnClick="btnClear_Click" />
     <asp:Button ID="btnClose" runat="server" Text="Close" OnClick="btnClose_Click" />
 
     <br /><br />
@@ -64,6 +67,10 @@
 
     <asp:Label ID="lblRXNO" runat="server" Text="RX_NO: "></asp:Label>
     <asp:TextBox ID="txtRXsearch" runat="server" OnTextChanged="txtPatientSearch_TextChanged"></asp:TextBox>
+
+    <asp:Label ID="lblRXID" runat="server" Text="Prescription ID: "></asp:Label>
+       <asp:TextBox ID="txtRXID" runat="server" Enabled="true"></asp:TextBox>
+
     <asp:Button ID="RXsearch" runat="server" Text="Search" OnClick="btnSearch_Click2" />
 
     <br /><br />
@@ -102,4 +109,7 @@
 
     <br /><br />
     <asp:Button ID="btnUpdateRefill" runat="server" Text="Update Refill Information" OnClick="btnUpdateRefill_Click" />
+    <asp:Button ID="btnAddfill" runat="server" Text="Add Refill Information" OnClick="btnAddRefill_Click" />
+    <asp:Button ID="btnDeleteRefill" runat="server" Text="Delete Refill Information" OnClick="btnDeleteRefill_Click" />
+
 </asp:Content>
