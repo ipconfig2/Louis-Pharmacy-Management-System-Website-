@@ -5,10 +5,10 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div>
+    <div class="container p-5 my-5 border">
         <asp:Label ID="Label1" runat="server" Text="Search Patient:"></asp:Label>
         <asp:TextBox ID="txtPatientSearch" runat="server"></asp:TextBox>
-        <asp:Button ID="Button1" runat="server" Text="Search" OnClick="btnSearch_Click" />
+        <asp:Button class="btn btn-primary rounded-pill px-3" ID="Button1" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
         <asp:GridView ID="dgvPatientData" runat="server" AutoGenerateColumns="true" EmptyDataText="No records found"></asp:GridView>
     </div>
@@ -21,7 +21,7 @@
 
         <asp:Panel ID="UpdatePanel" runat="server" Visible="False">
             <p>Patient ID:</p><asp:TextBox ID="txtpatientId" runat="server"></asp:TextBox> <br />
-            <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" />
+            <asp:Button class="btn btn-danger rounded-pill px-3" ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" />
         </asp:Panel>
 
         <p>First Name:</p><asp:TextBox ID="txtFname" runat="server"></asp:TextBox> <br />
@@ -38,9 +38,8 @@
         <p>Insurance:</p><asp:TextBox ID="txtInsurance" runat="server"></asp:TextBox> <br />
         <br />
 
-        <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
-        <input type="reset" onclick="return confirm('Do you really want to clear this form?');" />
-        <asp:Button ID="btnClose" runat="server" Text="Close" OnClick="btnClose_Click" />
+        <asp:Button class="btn btn-primary rounded-pill px-3" ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+        <input class="btn btn-danger rounded-pill px-3" type="reset" onclick="return confirm('Do you really want to clear this form?');" />
         <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label>
     </div>
 </asp:Content>

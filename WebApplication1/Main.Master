@@ -121,9 +121,6 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="Homepage.aspx">Home</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="Pat.aspx">Patient</a>
                         </li>
                         <li class="nav-item">
@@ -142,7 +139,7 @@
         </div>
 
         <footer class="footer">
-            <p>&copy; <%= DateTime.Now.Year %> Louis Pharmacy. All Rights Reserved. | <a href="Privacy.aspx">Privacy Policy</a></p>
+            <p>&copy; <%= DateTime.Now.Year %> Louis Pharmacy. All Rights Reserved. | <a href="https://www.microsoft.com/en-us/privacy/privacystatement">Privacy Policy</a></p>
         </footer>
     </form>
 </body>

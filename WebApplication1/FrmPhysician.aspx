@@ -5,17 +5,17 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div>
+    <div class="container p-5 my-5 border">
         <asp:Label ID="lblSearch" runat="server" Text="Search:"></asp:Label>
         <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
-        <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" />
+        <asp:Button ID="btnSearch" class="btn btn-primary rounded-pill px-3" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
         <asp:GridView ID="gvPhysicianData" runat="server" AutoGenerateColumns="true">
         </asp:GridView>
         <br />
     </div>
 
-    <div>
+    <div class="container p-5 my-5 border">
         <asp:RadioButtonList ID="Mode" runat="server" AutoPostBack="True" OnSelectedIndexChanged="Mode_SelectedIndexChanged">
             <asp:ListItem Value="Add" Selected="True">Add</asp:ListItem>
             <asp:ListItem Value="Update">Update</asp:ListItem>
@@ -33,9 +33,8 @@
         <p>Email:</p><asp:TextBox ID="txtEmail" runat="server" TextMode="Email"></asp:TextBox><br />
 
         <br />
-        <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
-        <input type="reset" />
-        <asp:Button ID="btnClose" runat="server" Text="Close" OnClick="btnClose_Click" />
+        <asp:Button ID="btnSubmit" class="btn btn-primary rounded-pill px-3" runat="server" Text="Submit" OnClick="btnSubmit_Click" />
+        <input type="reset"  class="btn btn-danger rounded-pill px-3" />
         <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label>
     </div>
 </asp:Content>
