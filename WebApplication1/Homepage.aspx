@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Homepage.aspx.cs" Inherits="WebApplication1.Homepage" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-   
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -32,9 +32,11 @@
 
     <div class="container p-5 my-5 text-center border shadow-lg rounded-lg">
         <h2 class="font-weight-bold">Employee of the Month</h2>
-        <asp:Image ID="imgEmployee" runat="server" ImageUrl="~/employee.jpg" AlternateText="Employee of the Month" CssClass="img-fluid rounded-circle shadow-sm" Width="200px" Height="200px" />
-        <h3><asp:Label ID="lblEmployeeName" runat="server" Text="Dr. Mcfarlane"></asp:Label></h3>
-        <p>Dr. McFarlane has been with us for over 20 years and is known for his exceptional care and dedication to our community. Congratulations, Dr. McFarlane!</p>
+        <div id="employeeOfTheMonth" class="employee-section" style="position: relative;" onmouseover="startConfetti()">
+            <asp:Image ID="imgEmployee" runat="server" ImageUrl="~/employee.jpg" AlternateText="Employee of the Month" CssClass="img-fluid rounded-circle shadow-sm" Width="200px" Height="200px" />
+            <h3><asp:Label ID="lblEmployeeName" runat="server" Text="Dr. Mcfarlane"></asp:Label></h3>
+            <p>Dr. McFarlane has been with us for over 20 years and is known for his exceptional care and dedication to our community. Congratulations, Dr. McFarlane!</p>
+        </div>
     </div>
 
     <div class="container p-5 my-5 text-center border shadow-lg rounded-lg">
@@ -60,4 +62,14 @@
         <p><strong>Phone:</strong> (800) 123-4567</p>
         <p><a href="mailto:support@LouisPharmacy.com" class="btn btn-primary">Send us an email</a></p>
     </div>
+
+    <script>
+        function startConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+    </script>
 </asp:Content>
