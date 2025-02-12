@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Web.UI.WebControls;
 
 namespace WebApplication1
 {
@@ -14,6 +16,9 @@ namespace WebApplication1
                 dgvPatientData.DataBind();
             }
         }
+
+
+
         string patientId, Fname, M_I, LName, DOB, Gender, Phone, Address, CITY, STATE, ZIP, Country, Insurance;
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
@@ -168,5 +173,8 @@ namespace WebApplication1
             // Redirect to homepage (Kevin)
             Response.Redirect("Homepage.aspx");
         }
+
+
+
     }
 }

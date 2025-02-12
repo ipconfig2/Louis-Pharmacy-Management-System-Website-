@@ -10,7 +10,7 @@
         <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
         <asp:Button ID="btnSearch" class="btn btn-primary rounded-pill px-3" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
-        <asp:GridView ID="gvPhysicianData" runat="server" AutoGenerateColumns="true">
+        <asp:GridView ID="gvPhysicianData" CssClass="gridview" runat="server" AutoGenerateColumns="true">
         </asp:GridView>
         <br />
     </div>
@@ -29,7 +29,7 @@
 
         <p>First Name:</p><asp:TextBox ID="txtFname" runat="server"></asp:TextBox> <br />
         <p>Last Name:</p><asp:TextBox ID="txtLname" runat="server"></asp:TextBox><br />
-        <p>Phone:</p><asp:TextBox ID="txtPhone" TextMode="Phone" runat="server"></asp:TextBox><br />
+        <p>Phone:</p><asp:TextBox ID="txtPhone"  runat="server"></asp:TextBox><br />
         <p>Email:</p><asp:TextBox ID="txtEmail" runat="server" TextMode="Email"></asp:TextBox><br />
 
         <br />
