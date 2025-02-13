@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Web.UI.WebControls;
 
 namespace WebApplication1
 {
@@ -151,7 +152,6 @@ namespace WebApplication1
             string searchKey = txtPatientSearch.Text.Trim();
             Class dataService = new Class();
             DataSet patientData = dataService.SearchPatient(searchKey);
-
             if (patientData.Tables[0].Rows.Count > 0)
             {
                 dgvPatientData.DataSource = patientData.Tables[0];
