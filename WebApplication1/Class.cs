@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -85,7 +83,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                 return "Invalid format for Last Name (Use only Letters)";
+                    return "Invalid format for Last Name (Use only Letters)";
                 }
 
                 if (IsAllLetters(M_I))
@@ -103,7 +101,7 @@ namespace WebApplication1
                 }
                 else
                 {
-                 return "Invalid date format for DOB.";
+                    return "Invalid date format for DOB.";
                 }
 
                 if (IsAllLetters(Gender))
@@ -171,7 +169,7 @@ namespace WebApplication1
             catch (Exception ex)
 
             {
-                return(ex.Message);
+                return (ex.Message);
 
             }
 
@@ -190,17 +188,17 @@ namespace WebApplication1
 
                 cmdString.Parameters.Clear();
 
-              
+
                 cmdString.Connection = myConn;
                 cmdString.CommandType = CommandType.StoredProcedure;
                 cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "DeletePhysician"; 
-
-             
-                    cmdString.Parameters.Add("@PhysicianID", SqlDbType.VarChar, 20).Value = PhysicianID;
+                cmdString.CommandText = "DeletePhysician";
 
 
-             
+                cmdString.Parameters.Add("@PhysicianID", SqlDbType.VarChar, 20).Value = PhysicianID;
+
+
+
                 int rowsAffected = cmdString.ExecuteNonQuery();
 
                 if (rowsAffected > 0)
@@ -594,7 +592,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(DOB))
                 {
-                     return "Invalid date format for DOB.";
+                    return "Invalid date format for DOB.";
                 }
 
                 if (!string.IsNullOrEmpty(Gender) && (Gender == "Male" || Gender == "Female"))
@@ -640,7 +638,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(ZIP))
                 {
-                   return "ZIP code must contain only 5 digits.";
+                    return "ZIP code must contain only 5 digits.";
                 }
 
                 if (!string.IsNullOrEmpty(COUNTRY) && IsAllLetters(COUNTRY) && COUNTRY.Length == 3)
@@ -649,7 +647,7 @@ namespace WebApplication1
                 }
                 else if (!string.IsNullOrEmpty(COUNTRY))
                 {
-                    return"Country must contain only 3 letters.";
+                    return "Country must contain only 3 letters.";
                 }
 
                 if (!string.IsNullOrEmpty(Insurance) && IsAllLetters(Insurance) && (Insurance == "Yes" || Insurance == "No" || Insurance == "Y" || Insurance == "N"))
@@ -776,8 +774,8 @@ namespace WebApplication1
                 return $"Error: {ex.Message}";
             }
             finally
-            {  
-                    myConn.Close();
+            {
+                myConn.Close();
             }
         }
 

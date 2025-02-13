@@ -66,6 +66,7 @@
   <ItemGroup>
     <Content Include="employee.jpg" />
     <Content Include="error.html" />
+    <Content Include="favicon.ico" />
     <Content Include="FrmPhysician.aspx" />
     <Content Include="home.jpg" />
     <Content Include="Pat.aspx" />
@@ -91,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="StyleSheetmaster.css" />
     <Content Include="Update_Prescriptions.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
