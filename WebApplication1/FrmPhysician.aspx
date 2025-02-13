@@ -10,8 +10,10 @@
         <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
         <asp:Button ID="btnSearch" class="btn btn-primary rounded-pill px-3" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
+                <div class="gridview-container">
         <asp:GridView ID="gvPhysicianData" CssClass="gridview" runat="server" AutoGenerateColumns="true">
         </asp:GridView>
+                    </div>
         <br />
     </div>
 

@@ -62,14 +62,22 @@
     }
 }
 
-.gridview {
+.gridview-container {
     width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+}
+
+.gridview {
+    width: max-content;
+    min-width: 100%;
     border-collapse: collapse;
     background: #ffffff;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    table-layout: fixed;
+    table-layout: auto;
 }
 
     .gridview th,
@@ -77,6 +85,7 @@
         padding: 12px 15px;
         text-align: left;
         word-wrap: break-word;
+        min-width: 150px; 
     }
 
     .gridview th {
@@ -95,7 +104,9 @@
         transition: background 0.3s ease-in-out;
     }
 
-input[type="text"], input[type="datetime"], input[type="date"], input[type="Phone"], input[type="email"], input[type="password"], textarea {
+input[type="text"], input[type="datetime"], input[type="date"],
+input[type="Phone"], input[type="email"], input[type="password"],
+textarea {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px 15px;
@@ -106,17 +117,22 @@ input[type="text"], input[type="datetime"], input[type="date"], input[type="Phon
     transition: border-color 0.3s ease-in-out;
 }
 
-    input[type="text"]:focus, input[type="datetime"]:focus, input[type="date"]:focus, input[type="Phone"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus {
+    input[type="text"]:focus, input[type="datetime"]:focus,
+    input[type="date"]:focus, input[type="Phone"]:focus,
+    input[type="email"]:focus, input[type="password"]:focus,
+    textarea:focus {
         border-color: #05668d;
         outline: none;
     }
 
-input[type="text"], input[type="datetime"], input[type="date"], input[type="Phone"], input[type="email"], input[type="password"], textarea {
+input[type="text"], input[type="datetime"], input[type="date"],
+input[type="Phone"], input[type="email"], input[type="password"],
+textarea {
     box-shadow: 0 0 5px rgba(5, 102, 141, 0.4);
 }
 
 @media (max-width: 768px) {
-    .gridview {
+    .gridview-container {
         display: block;
         overflow-x: auto;
         white-space: nowrap;

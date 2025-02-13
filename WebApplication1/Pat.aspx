@@ -10,7 +10,7 @@
         <asp:TextBox ID="txtPatientSearch" runat="server"></asp:TextBox>
         <asp:Button class="btn btn-primary rounded-pill px-3" ID="Button1" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
-        <div class="grid-container">
+        <div class="gridview-container">
         <asp:GridView ID="dgvPatientData" CssClass="gridview" runat="server" AutoGenerateColumns="true" AllowPaging="True" 
         EmptyDataText="No records found"></asp:GridView>
          </div>
