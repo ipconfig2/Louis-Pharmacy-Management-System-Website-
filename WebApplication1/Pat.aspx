@@ -10,7 +10,9 @@
         <asp:TextBox ID="txtPatientSearch" runat="server"></asp:TextBox>
         <asp:Button class="btn btn-primary rounded-pill px-3" ID="Button1" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
-        <asp:GridView ID="dgvPatientData" runat="server" AutoGenerateColumns="true" EmptyDataText="No records found"></asp:GridView>
+        <div class="grid-container">
+        <asp:GridView ID="dgvPatientData" CssClass="gridview" runat="server" AutoGenerateColumns="true" EmptyDataText="No records found"></asp:GridView>
+         </div>
     </div>
 
     <div class="container p-5 my-5 border">
@@ -29,7 +31,7 @@
         <p>Last Name:</p><asp:TextBox ID="txtLname" runat="server"></asp:TextBox><br />
         <p>Date of Birth:</p><asp:TextBox ID="ddob" TextMode="Date" runat="server"></asp:TextBox><br />
         <p>Gender:</p><asp:TextBox ID="txtGender" runat="server"></asp:TextBox><br />
-        <p>Phone:</p><asp:TextBox ID="txtPhone" TextMode="Phone" runat="server"></asp:TextBox><br />
+        <p>Phone:</p><asp:TextBox ID="txtPhone" runat="server"></asp:TextBox><br />
         <p>Address:</p><asp:TextBox ID="txtAddress" runat="server"></asp:TextBox> <br />
         <p>City:</p><asp:TextBox ID="txtCity" runat="server"></asp:TextBox> <br />
         <p>Zip:</p><asp:TextBox ID="txtZip" runat="server"></asp:TextBox> <br />

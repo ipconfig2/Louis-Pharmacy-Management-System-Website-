@@ -70,7 +70,7 @@
     <asp:Label ID="lblMessage2" runat="server" ForeColor="Red"></asp:Label>
     <br /><br />
 
-    <asp:GridView ID="gvRefillInfo" runat="server" AutoGenerateColumns="true"></asp:GridView>
+    <asp:GridView ID="gvRefillInfo" CssClass="gridview" runat="server" AutoGenerateColumns="true"></asp:GridView>
 
     <br />
     <asp:Label ID="RefilCount" runat="server" Text="Refill Count: "></asp:Label>
