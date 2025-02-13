@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Data;
-using System.Data.SqlClient;
-using System.Web.UI.WebControls;
 using System.Configuration;
-using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
+using System.Web.UI.WebControls;
 
 namespace WebApplication1
 {
@@ -33,7 +31,7 @@ namespace WebApplication1
             try
             {
                 Class obj = new Class();
-                DataTable dt = obj.GetAllPrescriptions(); 
+                DataTable dt = obj.GetAllPrescriptions();
 
                 if (dt.Rows.Count > 0)
                 {
@@ -97,7 +95,7 @@ namespace WebApplication1
 
                 // Load refill info
                 Class obj = new Class();
-obj.LoadRefills(txtPrescriptionID.Text);
+                obj.LoadRefills(txtPrescriptionID.Text);
             }
         }
 
