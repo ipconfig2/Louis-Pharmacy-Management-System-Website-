@@ -13,7 +13,7 @@
         <asp:GridView ID="dgvPatientData" runat="server" AutoGenerateColumns="true" EmptyDataText="No records found"></asp:GridView>
     </div>
 
-    <div>
+    <div class="container p-5 my-5 border">
         <asp:RadioButtonList ID="Mode" runat="server" AutoPostBack="True" OnSelectedIndexChanged="Mode_SelectedIndexChanged">
             <asp:ListItem Value="Add" Selected="True">Add</asp:ListItem>
             <asp:ListItem Value="Update">Update</asp:ListItem>

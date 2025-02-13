@@ -24,7 +24,7 @@
         <asp:Panel ID="UpdatePanel" runat="server" Visible="False">
             <p>Physician ID:</p>
             <asp:TextBox ID="txtphysicianId" runat="server"></asp:TextBox> <br />
-            <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" />
+            <asp:Button ID="btnDelete" class="btn btn-danger rounded-pill px-3" runat="server" Text="Delete" OnClick="btnDelete_Click" />
         </asp:Panel>
 
         <p>First Name:</p><asp:TextBox ID="txtFname" runat="server"></asp:TextBox> <br />

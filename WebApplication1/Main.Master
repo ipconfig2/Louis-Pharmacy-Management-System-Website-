@@ -104,6 +104,10 @@
                 padding: 20px;
             }
         }
+
+        .container:hover {
+            transform: scale(1);
+}
     </style>
 
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
