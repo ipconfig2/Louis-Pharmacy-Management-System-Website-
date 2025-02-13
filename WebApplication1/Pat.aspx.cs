@@ -20,6 +20,9 @@ namespace WebApplication1
 
 
         string patientId, Fname, M_I, LName, DOB, Gender, Phone, Address, CITY, STATE, ZIP, Country, Insurance;
+
+       
+
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
 
@@ -47,7 +50,7 @@ namespace WebApplication1
                 Phone = txtPhone.Text.Trim();
                 Address = txtAddress.Text.Trim();
                 CITY = txtCity.Text.Trim();
-                STATE = txtState.Text.Trim();
+                STATE = DDLState.SelectedValue;
                 ZIP = txtZip.Text.Trim();
                 Country = txtCity.Text.Trim();
                 Insurance = txtInsurance.Text.Trim();
@@ -96,7 +99,7 @@ namespace WebApplication1
                 Phone = txtPhone.Text.Trim();
                 Address = txtAddress.Text.Trim();
                 CITY = txtCity.Text.Trim();
-                STATE = txtState.Text.Trim();
+                STATE = DDLState.SelectedValue;
                 ZIP = txtZip.Text.Trim();
                 Country = txtCity.Text.Trim();
                 Insurance = txtInsurance.Text.Trim();
@@ -168,11 +171,7 @@ namespace WebApplication1
             }
         }
 
-        protected void btnClose_Click(object sender, EventArgs e)
-        {
-            // Redirect to homepage (Kevin)
-            Response.Redirect("Homepage.aspx");
-        }
+       
 
 
 

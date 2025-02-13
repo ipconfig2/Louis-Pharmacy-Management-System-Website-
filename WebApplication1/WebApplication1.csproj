@@ -91,6 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="State.xml" />
     <Content Include="Update_Prescriptions.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
