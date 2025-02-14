@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace WebApplication1
 {
@@ -120,7 +116,7 @@ namespace WebApplication1
             }
         }
 
-protected void Mode_SelectedIndexChanged(object sender, EventArgs e)
+        protected void Mode_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdatePanel.Visible = (Mode.SelectedValue == "Update");
         }

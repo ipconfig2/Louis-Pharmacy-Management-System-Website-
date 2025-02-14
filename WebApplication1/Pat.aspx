@@ -6,16 +6,17 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container p-5 my-5 border">
-        <asp:Label ID="Label1" runat="server" Text="Search Patient:"></asp:Label>
+        <asp:Label ID="Label1" runat="server" Text="Search Patient Name:"></asp:Label>
         <asp:TextBox ID="txtPatientSearch" runat="server"></asp:TextBox>
         <asp:Button class="btn btn-primary rounded-pill px-3" ID="Button1" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
-        <div class="grid-container">
-        <asp:GridView ID="dgvPatientData" CssClass="gridview" runat="server" AutoGenerateColumns="true" EmptyDataText="No records found"></asp:GridView>
+        <div class="gridview-container">
+        <asp:GridView ID="dgvPatientData" CssClass="gridview" runat="server" AutoGenerateColumns="true" AllowPaging="True" 
+        EmptyDataText="No records found"></asp:GridView>
          </div>
     </div>
 
-    <div>
+    <div class="container p-5 my-5 border">
         <asp:RadioButtonList ID="Mode" runat="server" AutoPostBack="True" OnSelectedIndexChanged="Mode_SelectedIndexChanged">
             <asp:ListItem Value="Add" Selected="True">Add</asp:ListItem>
             <asp:ListItem Value="Update">Update</asp:ListItem>
@@ -36,7 +37,11 @@
         <p>City:</p><asp:TextBox ID="txtCity" runat="server"></asp:TextBox> <br />
         <p>Zip:</p><asp:TextBox ID="txtZip" runat="server"></asp:TextBox> <br />
         <p>Country:</p><asp:TextBox ID="txtCountry" runat="server"></asp:TextBox> <br />
-        <p>State:</p><asp:TextBox ID="txtState" runat="server"></asp:TextBox> <br />
+        <p>State:</p>
+        <asp:DropDownList ID="DDLState" runat="server" DataSourceID="XmlDataSource1" DataTextField="name" DataValueField="abbreviation"></asp:DropDownList> 
+        <asp:XmlDataSource ID="XmlDataSource1" runat="server" DataFile="~/State.xml"></asp:XmlDataSource>
+        <br />
+
         <p>Insurance:</p><asp:TextBox ID="txtInsurance" runat="server"></asp:TextBox> <br />
         <br />
 

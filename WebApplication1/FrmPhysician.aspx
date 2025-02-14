@@ -10,8 +10,10 @@
         <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
         <asp:Button ID="btnSearch" class="btn btn-primary rounded-pill px-3" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
+                <div class="gridview-container">
         <asp:GridView ID="gvPhysicianData" CssClass="gridview" runat="server" AutoGenerateColumns="true">
         </asp:GridView>
+                    </div>
         <br />
     </div>
 
@@ -24,7 +26,7 @@
         <asp:Panel ID="UpdatePanel" runat="server" Visible="False">
             <p>Physician ID:</p>
             <asp:TextBox ID="txtphysicianId" runat="server"></asp:TextBox> <br />
-            <asp:Button ID="btnDelete" runat="server" Text="Delete" OnClick="btnDelete_Click" />
+            <asp:Button ID="btnDelete" class="btn btn-danger rounded-pill px-3" runat="server" Text="Delete" OnClick="btnDelete_Click" />
         </asp:Panel>
 
         <p>First Name:</p><asp:TextBox ID="txtFname" runat="server"></asp:TextBox> <br />
