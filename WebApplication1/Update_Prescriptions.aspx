@@ -12,7 +12,7 @@
 
     <asp:Label ID="Label1" runat="server" Text="Prescription ID: "></asp:Label>
     <asp:TextBox ID="txtPatSearch" runat="server" OnTextChanged="txtPatientSearch_TextChanged"></asp:TextBox>
-    <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" />
+    <asp:Button ID="btnSearch" class="btn btn-primary rounded-pill px-3" runat="server" Text="Search" OnClick="btnSearch_Click" />
 
     <br /><br />
     <asp:Label ID="lblMessage" runat="server" ForeColor="Red"></asp:Label>
@@ -55,13 +55,11 @@
     <asp:TextBox ID="txtPhysicianID" runat="server"></asp:TextBox>
 
     <br /><br />
-    <asp:Button ID="btnAddPrescription" runat="server" Text="Add Prescription" OnClick="btnAddPrescription_Click" />
-    <asp:Button ID="btnDelete" runat="server" Text="Delete Prescription" OnClick="btnDelete_Click" Enabled="true" />
-    <asp:Button ID="btnUpdate" runat="server" Text="Update Prescription"
+    <asp:Button ID="btnAddPrescription" class="btn btn-primary rounded-pill px-3" runat="server" Text="Add Prescription" OnClick="btnAddPrescription_Click" />
+    <asp:Button ID="btnDelete" class="btn btn-danger rounded-pill px-3" runat="server" Text="Delete Prescription" OnClick="btnDelete_Click" Enabled="true" />
+    <asp:Button ID="btnUpdate" class="btn btn-primary rounded-pill px-3" runat="server" Text="Update Prescription"
         OnClick="btnUpdate_Click" OnClientClick="return validateForm();" />
-    <asp:Button ID="btnClear" runat="server" Text="Clear" OnClick="btnClear_Click" />
-    <asp:Button ID="btnClose" runat="server" Text="Close" OnClick="btnClose_Click" />
-
+    <asp:Button ID="btnClear" class="btn btn-primary rounded-pill px-3" runat="server" Text="Clear" OnClick="btnClear_Click" />
     <br /><br />
     <h2>Refill Information</h2>
 
@@ -71,7 +69,7 @@
     <asp:Label ID="lblRXID" runat="server" Text="Prescription ID: "></asp:Label>
        <asp:TextBox ID="txtRXID" runat="server" Enabled="true"></asp:TextBox>
 
-    <asp:Button ID="RXsearch" runat="server" Text="Search" OnClick="btnSearch_Click2" />
+    <asp:Button ID="RXsearch" class="btn btn-primary rounded-pill px-3" runat="server" Text="Search" OnClick="btnSearch_Click2" />
 
     <br /><br />
     <asp:Label ID="lblMessage2" runat="server" ForeColor="Red"></asp:Label>
@@ -108,8 +106,8 @@
     <asp:CheckBox ID="chkCompleted" runat="server" Text="Completed" AutoPostBack="true" OnCheckedChanged="chkCompleted_CheckedChanged" />
 
     <br /><br />
-    <asp:Button ID="btnUpdateRefill" runat="server" Text="Update Refill Information" OnClick="btnUpdateRefill_Click" />
-    <asp:Button ID="btnAddfill" runat="server" Text="Add Refill Information" OnClick="btnAddRefill_Click" />
-    <asp:Button ID="btnDeleteRefill" runat="server" Text="Delete Refill Information" OnClick="btnDeleteRefill_Click" />
+    <asp:Button ID="btnUpdateRefill" class="btn btn-primary rounded-pill px-3" runat="server" Text="Update Refill Information" OnClick="btnUpdateRefill_Click" />
+    <asp:Button ID="btnAddfill" class="btn btn-primary rounded-pill px-3" runat="server" Text="Add Refill Information" OnClick="btnAddRefill_Click" />
+    <asp:Button ID="btnDeleteRefill" class="btn btn-danger rounded-pill px-3" runat="server" Text="Delete Refill Information" OnClick="btnDeleteRefill_Click" />
 
 </asp:Content>
