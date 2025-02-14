@@ -357,7 +357,7 @@ namespace WebApplication1
         }
 
 
-        public bool AddPrescription(string patientID, string physicianID, string medName, string dosage, string intMethod, int refillsLeft, DateTime initialRefillDate)
+        public string AddPrescription(string patientID, string physicianID, string medName, string dosage, string intMethod, int refillsLeft, DateTime initialRefillDate)
         {
             using (SqlConnection con = new SqlConnection(connString))
             {
@@ -371,12 +371,27 @@ namespace WebApplication1
                     cmd.Parameters.AddWithValue("@IntMethod", intMethod);
                     cmd.Parameters.AddWithValue("@RefillsLeft", refillsLeft);
                     cmd.Parameters.AddWithValue("@InitialRefillDate", initialRefillDate);
+
+                    // Output parameters for success flag and error message
+                    SqlParameter successParam = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    SqlParameter errorParam = new SqlParameter("@ErrorMessage", SqlDbType.NVarChar, 255) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(successParam);
+                    cmd.Parameters.Add(errorParam);
+
                     con.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    return rowsAffected > 0; // Return true if the insert was successful
+                    cmd.ExecuteNonQuery();
+
+                    bool success = (bool)cmd.Parameters["@Success"].Value;
+                    string errorMessage = cmd.Parameters["@ErrorMessage"].Value.ToString();
+
+                    if (success)
+                        return "✅ Prescription added successfully!";
+                    else
+                        return "❌ " + errorMessage;
                 }
             }
         }
+
 
         public DataSet LoadRefills(string prescriptionId)
         {
@@ -780,24 +795,42 @@ namespace WebApplication1
         }
 
 
-        public bool UpdatePrescription(string prescriptionID, string medName, string dosage, string intMethod, int? refillsLeft)
+        public string UpdatePrescription(string prescriptionID, string patientID, string physicianID, string medName, string dosage, string intMethod, DateTime refillDate, string status)
         {
             using (SqlConnection con = new SqlConnection(connString))
             {
                 using (SqlCommand cmd = new SqlCommand("UpdatePrescription", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.Parameters.AddWithValue("@PrescriptionID", prescriptionID);
-                    cmd.Parameters.AddWithValue("@MedName", string.IsNullOrWhiteSpace(medName) ? (object)DBNull.Value : medName);
-                    cmd.Parameters.AddWithValue("@Dosage", string.IsNullOrWhiteSpace(dosage) ? (object)DBNull.Value : dosage);
-                    cmd.Parameters.AddWithValue("@IntMethod", string.IsNullOrWhiteSpace(intMethod) ? (object)DBNull.Value : intMethod);
-                    cmd.Parameters.AddWithValue("@RefillsLeft", refillsLeft.HasValue ? (object)refillsLeft.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@PatientID", patientID);
+                    cmd.Parameters.AddWithValue("@PHYSICIANID", physicianID);
+                    cmd.Parameters.AddWithValue("@MedName", medName);
+                    cmd.Parameters.AddWithValue("@Dosage", dosage); // Fixed typo from Doseage
+                    cmd.Parameters.AddWithValue("@IntMethod", intMethod);
+                    cmd.Parameters.AddWithValue("@RefillDate", refillDate);
+                    cmd.Parameters.AddWithValue("@Status", string.IsNullOrEmpty(status) ? DBNull.Value : (object)status);
+
+                    // Output parameters for success/error handling
+                    SqlParameter successParam = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    SqlParameter errorParam = new SqlParameter("@ErrorMessage", SqlDbType.NVarChar, 255) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(successParam);
+                    cmd.Parameters.Add(errorParam);
+
                     con.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    return rowsAffected > 0; // Returns true if the update was successful
+                    cmd.ExecuteNonQuery();
+
+                    bool success = (bool)cmd.Parameters["@Success"].Value;
+                    string errorMessage = cmd.Parameters["@ErrorMessage"].Value.ToString();
+
+                    return success ? "✅ Prescription updated successfully!" : "❌ " + errorMessage;
                 }
             }
         }
+
+
+
 
 
         public DataSet SearchPatient(string searchTerm)
@@ -1056,21 +1089,55 @@ namespace WebApplication1
                 }
             }
         }
+        public string AddRefill(string prescriptionID, DateTime refillDate)
+{
+    using (SqlConnection con = new SqlConnection(connString))
+    {
+        using (SqlCommand cmd = new SqlCommand("AddRefills", con))
+        {
+            cmd.CommandType = CommandType.StoredProcedure;
 
-        public bool DeletePresc(string prescriptionID)
+            cmd.Parameters.AddWithValue("@PrescriptionID", prescriptionID);
+            cmd.Parameters.AddWithValue("@RefillDate", refillDate);
+
+            con.Open();
+            int rowsAffected = cmd.ExecuteNonQuery();
+            
+            return rowsAffected > 0 ? "✅ Refill added successfully!" : "❌ Error adding refill.";
+        }
+    }
+}
+
+
+        public string DeletePrescription(string prescriptionID)
         {
             using (SqlConnection con = new SqlConnection(connString))
             {
                 using (SqlCommand cmd = new SqlCommand("DeletePrescription", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@PrescriptionID", SqlDbType.VarChar, 7).Value = prescriptionID;
+                    cmd.Parameters.AddWithValue("@PrescriptionID", prescriptionID);
+
+                    // Output parameters
+                    SqlParameter successParam = new SqlParameter("@Success", SqlDbType.Bit) { Direction = ParameterDirection.Output };
+                    SqlParameter errorParam = new SqlParameter("@ErrorMessage", SqlDbType.NVarChar, 255) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(successParam);
+                    cmd.Parameters.Add(errorParam);
+
                     con.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery(); // Returns the number of rows affected
-                    return rowsAffected > 0; // Return true if a row was deleted, otherwise false
+                    cmd.ExecuteNonQuery();
+
+                    bool success = (bool)cmd.Parameters["@Success"].Value;
+                    string errorMessage = cmd.Parameters["@ErrorMessage"].Value.ToString();
+
+                    if (success)
+                        return "✅ Prescription deleted successfully!";
+                    else
+                        return "❌ " + errorMessage;
                 }
             }
         }
+
 
         public DataTable SearchRefills(string searchTerm)
         {
@@ -1119,7 +1186,7 @@ namespace WebApplication1
                 cmdString.Connection = myConn;
                 cmdString.CommandType = CommandType.StoredProcedure;
                 cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "DeletRefill";
+                cmdString.CommandText = "DeleteRefill";
                 // Define input parameter
                 cmdString.Parameters.Add("@RXNO", SqlDbType.VarChar, 20).Value = RXNO;
                 cmdString.Parameters.Add("@PrescID", SqlDbType.VarChar, 20).Value = PrescID;
@@ -1195,6 +1262,22 @@ namespace WebApplication1
                 myConn.Close();
             }
         }
+        private void ClearAndEnableTextBoxes(Control parent)
+{
+    foreach (Control c in parent.Controls)
+    {
+        if (c is TextBox txt)
+        {
+            txt.Text = "";  // Clear text
+            txt.Enabled = true;  // Enable the textbox
+        }
+        else if (c.HasControls()) // Recursively check child controls (inside panels, group boxes, etc.)
+        {
+            ClearAndEnableTextBoxes(c);
+        }
+    }
+}
+
 
 
         public DataTable GetAllPrescriptions()

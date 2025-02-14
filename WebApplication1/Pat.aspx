@@ -11,7 +11,7 @@
         <asp:Button class="btn btn-primary rounded-pill px-3" ID="Button1" runat="server" Text="Search" OnClick="btnSearch_Click" />
         <br /><br />
         <div class="gridview-container">
-        <asp:GridView ID="dgvPatientData" CssClass="gridview" runat="server" AutoGenerateColumns="true" AllowPaging="True" 
+        <asp:GridView ID="dgvPatientData" CssClass="gridview" runat="server" AutoGenerateColumns="true" 
         EmptyDataText="No records found"></asp:GridView>
          </div>
     </div>
