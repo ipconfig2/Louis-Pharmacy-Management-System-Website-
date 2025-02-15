@@ -22,8 +22,7 @@ namespace WebApplication1
                 gvPrescriptions.DataBind();
                 gvRefillInfo.DataSource = null;
                 gvRefillInfo.DataBind();
-                LoadPrescriptions();
-                LoadRefillInfo();
+
             }
         }
 
@@ -62,7 +61,7 @@ namespace WebApplication1
             try
             {
                 Class obj = new Class();
-                DataTable dt = obj.GetAllRefills(); // Fetch all refills
+                DataTable dt = obj.GetAllRefills(); 
 
                 if (dt.Rows.Count > 0)
                 {
@@ -97,7 +96,7 @@ namespace WebApplication1
                 txtPhysicianID.Text = row.Cells[3].Text;
 
 
-                // Disable Patient and Physician ID fields to prevent editing
+               
                 txtPatientID.Enabled = false;
                 txtPhysicianID.Enabled = false;
                 txtPrescriptionID.Enabled = false;
@@ -114,7 +113,7 @@ namespace WebApplication1
         }
         protected void btnClear_Click(object sender, EventArgs e)
         {
-            ClearAndEnableTextBoxes(this); // Pass the current page as the parent control
+            ClearAndEnableTextBoxes(this);
         }
 
         private void ClearAndEnableTextBoxes(Control parent)
@@ -123,10 +122,10 @@ namespace WebApplication1
             {
                 if (c is TextBox txt)
                 {
-                    txt.Text = "";  // Clear text
-                    txt.Enabled = true;  // Enable the textbox
+                    txt.Text = ""; 
+                    txt.Enabled = true;  
                 }
-                else if (c.HasControls()) // Recursively check child controls (inside panels, group boxes, etc.)
+                else if (c.HasControls())
                 {
                     ClearAndEnableTextBoxes(c);
                 }
@@ -139,7 +138,7 @@ namespace WebApplication1
         {
             lblMessage.Text = "";
 
-            if (string.IsNullOrWhiteSpace(txtPrescriptionID.Text)) // Ensure ID is provided
+            if (string.IsNullOrWhiteSpace(txtPrescriptionID.Text)) 
             {
                 lblMessage.Text = "❌ Error: Prescription ID is required.";
                 lblMessage.ForeColor = System.Drawing.Color.Red;
@@ -149,8 +148,8 @@ namespace WebApplication1
             try
             {
                 string prescriptionID = txtPrescriptionID.Text.Trim();
-                string patientID = txtPatientID.Text.Trim();  // Retrieve from textbox
-                string physicianID = txtPhysicianID.Text.Trim();  // Retrieve from textbox
+                string patientID = txtPatientID.Text.Trim();  
+                string physicianID = txtPhysicianID.Text.Trim();
                 string medName = txtMedicine.Text.Trim();
                 string dosage = txtDosage.Text.Trim();
                 string intMethod = txtIntMethod.Text.Trim();
@@ -163,8 +162,7 @@ namespace WebApplication1
                 lblMessage.Text = result;
                 lblMessage.ForeColor = result.StartsWith("✅") ? System.Drawing.Color.Green : System.Drawing.Color.Red;
 
-                LoadPrescriptions(); // Refresh prescriptions after update
-                LoadRefillInfo(); // Refresh refills
+    
             }
             catch (Exception ex)
             {
@@ -177,7 +175,7 @@ namespace WebApplication1
 
 
 
-        // Helper Function to Show Messages
+     
         private void ShowMessage(Label lbl, string message, Color color)
         {
             lbl.Text = message;
@@ -188,7 +186,7 @@ namespace WebApplication1
 
         protected void btnUpdateRefill_Click(object sender, EventArgs e)
         {
-            lblMessage2.Text = ""; // Clear previous messages
+            lblMessage2.Text = "";
             lblMessage2.Visible = false;
 
             if (string.IsNullOrWhiteSpace(txtRXsearch.Text) || string.IsNullOrWhiteSpace(txtRXID.Text))
@@ -217,24 +215,21 @@ namespace WebApplication1
                     txtRXID.Text.Trim(),
                     txtRefillDate.Text.Trim(),
                     status,
-                    int.Parse(txtRefillCount.Text.Trim()) // Convert to int
+                    int.Parse(txtRefillCount.Text.Trim())
                 );
 
-                if (!isUpdated) // Show error message only if update fails
+                if (isUpdated)
                 {
-                    lblMessage2.Text = "❌ Error: RX Number and Prescription ID do not match or update failed.";
-                    lblMessage2.ForeColor = System.Drawing.Color.Red;
-                    lblMessage2.Visible = true;
+                    lblMessage2.Text = "✅ Refill updated successfully.";
+                    lblMessage2.ForeColor = System.Drawing.Color.Green;
                 }
                 else
                 {
-                    lblMessage2.Text = " Success.";
-                    lblMessage2.ForeColor = System.Drawing.Color.Green;
-                    lblMessage2.Visible = true;
+                    lblMessage2.Text = "❌ Error: Refills left cannot be increased or prescription does not exist.";
+                    lblMessage2.ForeColor = System.Drawing.Color.Red;
                 }
 
-                LoadRefillInfo();   // Refresh refill grid
-                LoadPrescriptions(); // Refresh prescription grid
+                lblMessage2.Visible = true;
             }
             catch (Exception ex)
             {
@@ -243,12 +238,14 @@ namespace WebApplication1
                 lblMessage2.Visible = true;
             }
 
-            lblMessage2.Text = "Refill updated successfully.";
-            lblMessage2.ForeColor = System.Drawing.Color.Green;
-
             Class obj2 = new Class();
-            obj2.LoadRefills(txtPrescriptionID.Text);
+            obj2.LoadRefills(txtRXID.Text);
+  
         }
+
+
+
+
 
 
         protected void btnDelete_Click(object sender, EventArgs e)
@@ -265,13 +262,12 @@ namespace WebApplication1
             try
             {
                 Class obj = new Class();
-                string result = obj.DeletePrescription(prescriptionID); // Now returns a string
+                string result = obj.DeletePrescription(prescriptionID);
 
                 lblMessage.Text = result;
                 lblMessage.ForeColor = result.StartsWith("✅") ? System.Drawing.Color.Green : System.Drawing.Color.Red;
 
-                LoadPrescriptions(); // Refresh prescriptions grid
-                LoadRefillInfo();    // Refresh refills grid
+  
             }
             catch (Exception ex)
             {
@@ -315,13 +311,14 @@ namespace WebApplication1
                 {
                     gvPrescriptions.DataSource = dt;
                     gvPrescriptions.DataBind();
-                    lblMessage.Text = ""; // Clear error message
+                    lblMessage.Text = ""; 
                 }
                 else
                 {
                     gvPrescriptions.DataSource = null;
                     gvPrescriptions.DataBind();
-                    ShowMessage(lblMessage, "No matching prescriptions found.", Color.Red);
+                    lblMessage.Text = "No matching prescriptions found.";
+                    lblMessage.ForeColor = System.Drawing.Color.Red;
                 }
             }
             catch (Exception ex)
@@ -349,7 +346,7 @@ namespace WebApplication1
 
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                lblMessage2.Text = "Please enter an RX number or Prescription ID.";
+                lblMessage2.Text = "Please enter an RX number.";
                 lblMessage2.ForeColor = System.Drawing.Color.Red;
                 return;
             }
@@ -443,12 +440,11 @@ namespace WebApplication1
                 }
                 else
                 {
-                    lblMessage.Text = result; // Only shows an actual error message
+                    lblMessage.Text = result; 
                     lblMessage.ForeColor = System.Drawing.Color.Red;
                 }
 
-                LoadPrescriptions();
-                LoadRefillInfo();
+  
             }
             catch (Exception ex)
             {
@@ -458,8 +454,43 @@ namespace WebApplication1
         }
         protected void btnDeleteRefill_Click(object sender, EventArgs e)
         {
+            lblMessage2.Text = "";
 
+            if (string.IsNullOrWhiteSpace(txtRXsearch.Text))
+            {
+                lblMessage2.Text = "❌ Error: RX number is required.";
+                lblMessage2.ForeColor = System.Drawing.Color.Red;
+                return;
+            }
+
+            try
+            {
+                
+                if (!int.TryParse(txtRXsearch.Text.Trim(), out int rxNo))
+                {
+                    lblMessage2.Text = "❌ Error: RX number must be a valid number.";
+                    lblMessage2.ForeColor = System.Drawing.Color.Red;
+                    return;
+                }
+
+                
+                Class obj = new Class();
+                string result = obj.DeleteRefill(rxNo);
+
+                lblMessage2.Text = result;
+                lblMessage2.ForeColor = result.StartsWith("✅") ? System.Drawing.Color.Green : System.Drawing.Color.Red;
+
+              
+            }
+            catch (Exception ex)
+            {
+                lblMessage2.Text = "❌ Error deleting refill.";
+                lblMessage2.ForeColor = System.Drawing.Color.Red;
+            }
         }
+
+
+
         protected void btnAddRefill_Click(object sender, EventArgs e)
         {
             lblMessage.Text = "";
@@ -482,8 +513,7 @@ namespace WebApplication1
                 lblMessage.Text = result;
                 lblMessage.ForeColor = result.StartsWith("✅") ? System.Drawing.Color.Green : System.Drawing.Color.Red;
 
-                LoadRefillInfo(); // Refresh the refill grid
-                LoadPrescriptions(); // Refresh prescriptions
+            ; 
             }
             catch (Exception ex)
             {
