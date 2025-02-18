@@ -924,7 +924,7 @@ namespace WebApplication1
                 // Clear any parameters
                 cmdString.Parameters.Clear();
 
-                // Set up command for stored procedure
+     
                 cmdString.Connection = myConn;
                 cmdString.CommandType = CommandType.StoredProcedure;
                 cmdString.CommandText = "SearchPhysician";
@@ -932,7 +932,7 @@ namespace WebApplication1
                 // Parse search term
                 string[] terms = searchTerm.Trim().Split(' ');
 
-                // Add parameters for first and last name
+      
                 if (terms.Length > 0)
                 {
                     cmdString.Parameters.AddWithValue("@FName", terms[0]);
@@ -951,16 +951,16 @@ namespace WebApplication1
                     cmdString.Parameters.AddWithValue("@LName", DBNull.Value);
                 }
 
-                // Set up adapter and dataset
+         
                 SqlDataAdapter adapter = new SqlDataAdapter();
                 adapter.SelectCommand = cmdString;
 
                 DataSet dataSet = new DataSet();
 
-                // Fill adapter
+          
                 adapter.Fill(dataSet);
 
-                // Return dataset
+           
                 return dataSet;
             }
             catch (Exception ex)
@@ -984,17 +984,17 @@ namespace WebApplication1
 
 
 
-                // Clear parameters and set up for stored procedure
+             
                 cmdString.Parameters.Clear();
                 cmdString.Connection = myConn;
                 cmdString.CommandType = CommandType.StoredProcedure;
                 cmdString.CommandText = "dbo.GETREFILLS";
 
-                // Add parameters for the stored procedure
+              
                 cmdString.Parameters.AddWithValue("@PrescriptionID", prescriptionId > 0 ? (object)prescriptionId : DBNull.Value);
                 cmdString.Parameters.AddWithValue("@status", !string.IsNullOrEmpty(status) ? (object)status : DBNull.Value);
 
-                // Execute the stored procedure
+              
                 cmdString.ExecuteNonQuery();
 
                 string message = "Refill pickup recorded successfully.";
@@ -1021,9 +1021,9 @@ namespace WebApplication1
 
         public void LoadPatientInfo(string patientID, GridView gridViewPrescriptions, Label lblPatientName, Label lblDOB, Label lblAddress, Label lblPhone)
         {
-            // Clear UI elements
+          
             gridViewPrescriptions.DataSource = null;
-            gridViewPrescriptions.DataBind(); // Clear any existing data
+            gridViewPrescriptions.DataBind();
             lblPatientName.Text = string.Empty;
             lblDOB.Text = string.Empty;
             lblAddress.Text = string.Empty;
@@ -1031,12 +1031,12 @@ namespace WebApplication1
 
             try
             {
-                // Open the connection inside a using statement to ensure proper disposal
+              
                 using (SqlConnection myConn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnString"].ConnectionString))
                 {
-                    myConn.Open(); // Ensure the connection is open
+                    myConn.Open(); 
 
-                    // Create a new command and associate it with the connection
+                
                     using (SqlCommand cmdString = new SqlCommand("GetPatientInfoAndPrescriptions", myConn))
                     {
                         cmdString.CommandType = CommandType.StoredProcedure;
@@ -1044,7 +1044,7 @@ namespace WebApplication1
 
                         using (SqlDataReader reader = cmdString.ExecuteReader())
                         {
-                            // Retrieve patient info
+                          
                             if (reader.Read())
                             {
                                 lblPatientName.Text = $"{reader["FirstName"]} {reader["MiddleInitial"]} {reader["LastName"]}";
@@ -1054,10 +1054,10 @@ namespace WebApplication1
                             }
                             else
                             {
-                                // If patient not found
+                               
                                 string message = "Patient not found.";
 
-                                // Register a JavaScript alert to show the message in the browser
+                             
                                 if (HttpContext.Current.Handler is Page page)
                                 {
                                     page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('" + message + "');", true);
@@ -1065,13 +1065,13 @@ namespace WebApplication1
                                 return;
                             }
 
-                            // Load prescriptions into GridView
-                            if (reader.NextResult()) // Move to the prescriptions result set
+                           
+                            if (reader.NextResult()) 
                             {
                                 DataTable prescriptionsTable = new DataTable();
                                 prescriptionsTable.Load(reader);
                                 gridViewPrescriptions.DataSource = prescriptionsTable;
-                                gridViewPrescriptions.DataBind(); // Bind the data to the GridView
+                                gridViewPrescriptions.DataBind(); 
                             }
                         }
                     }
@@ -1079,10 +1079,10 @@ namespace WebApplication1
             }
             catch (Exception ex)
             {
-                // Handle any errors that may occur during the operation
+                
                 string errorMessage = "An error occurred: " + ex.Message;
 
-                // Display the error message using JavaScript alert
+               
                 if (HttpContext.Current.Handler is Page page)
                 {
                     page.ClientScript.RegisterStartupScript(this.GetType(), "errorAlert", "alert('" + errorMessage + "');", true);
@@ -1173,38 +1173,28 @@ namespace WebApplication1
             return dt;
         }
 
-        public void DeleteRefill(string RXNO, string PrescID)
+        public string DeleteRefill(int RXNO)
         {
-            try
-
+            using (SqlConnection con = new SqlConnection(connString))
             {
-                // open connection
-                myConn.Open();
-                //clear any parameters
-                cmdString.Parameters.Clear();
-                // command
-                cmdString.Connection = myConn;
-                cmdString.CommandType = CommandType.StoredProcedure;
-                cmdString.CommandTimeout = 1500;
-                cmdString.CommandText = "DeleteRefill";
-                // Define input parameter
-                cmdString.Parameters.Add("@RXNO", SqlDbType.VarChar, 20).Value = RXNO;
-                cmdString.Parameters.Add("@PrescID", SqlDbType.VarChar, 20).Value = PrescID;
-                // adapter and dataset
-                SqlDataAdapter aAdapter = new SqlDataAdapter();
-                cmdString.ExecuteNonQuery();
+                using (SqlCommand cmd = new SqlCommand("DeleteRefill", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@RX_NO", RXNO);
 
-            }
-            catch (Exception ex)
-            {
-                throw new ArgumentException(ex.Message);
-            }
-            finally
-            {
-                myConn.Close();
-            }
+                    con.Open();
+                    object result = cmd.ExecuteScalar(); // Get the returned row count
 
+                    int rowsAffected = (result != null) ? Convert.ToInt32(result) : 0;
+
+                    return rowsAffected > 0 ? "✅ Refill deleted successfully!" : "❌ Refill not found.";
+                }
+            }
         }
+
+
+
+
         public bool UpdateRefill(string rxNo, string prescriptionID, string refillDate, string status, int refillsLeft)
         {
             using (SqlConnection con = new SqlConnection(connString))
@@ -1217,12 +1207,28 @@ namespace WebApplication1
                     cmd.Parameters.AddWithValue("@RefillDate", DateTime.Parse(refillDate));
                     cmd.Parameters.AddWithValue("@Status", string.IsNullOrEmpty(status) ? DBNull.Value : (object)status);
                     cmd.Parameters.AddWithValue("@RefillsLeft", refillsLeft);
+
+                    // Capture the stored procedure return value
+                    SqlParameter returnParameter = new SqlParameter();
+                    returnParameter.ParameterName = "@ReturnVal";
+                    returnParameter.SqlDbType = SqlDbType.Int;
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+                    cmd.Parameters.Add(returnParameter);
+
                     con.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    return rowsAffected > 0; // Return true if the update is successful
+                    cmd.ExecuteNonQuery();
+
+                    // Read the return value
+                    int result = (int)returnParameter.Value;
+
+                    return result > 0; // If rows were affected, return true (success)
                 }
             }
         }
+
+
+
+
 
         public DataSet RXByID(string rxno)
 
