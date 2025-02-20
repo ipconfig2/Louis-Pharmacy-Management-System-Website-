@@ -20,9 +20,6 @@ A comprehensive pharmacy management system developed as a Final Project for Web 
 ## Technology Stack
 
 ### Frontend
-- AJAX for asynchronous operations
-- XML data handling
-- jQuery for DOM manipulation
 - BootStrap for modern responsive design
 
 ### Backend
